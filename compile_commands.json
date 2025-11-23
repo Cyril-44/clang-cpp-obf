@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/cyril/clang-cpp-obf/build",
+  "command": "/usr/bin/g++  -I/usr/lib/llvm-10/include -g -std=gnu++17   -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -o CMakeFiles/my-obfuscator.dir/main.cpp.o -c /home/cyril/clang-cpp-obf/main.cpp",
+  "file": "/home/cyril/clang-cpp-obf/main.cpp",
+  "output": "CMakeFiles/my-obfuscator.dir/main.cpp.o"
+}
+]

@@ -1,0 +1,2740 @@
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineSystem.cmake:12 (find_program)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_UNAME"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "uname"
+    candidate_directories:
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/"
+      - "/home/cyril/.local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/usr/lib/wsl/lib/"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+      - "/mnt/c/WINDOWS/system32/"
+      - "/mnt/c/WINDOWS/"
+      - "/mnt/c/WINDOWS/System32/Wbem/"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "/mnt/c/Program Files/dotnet/"
+      - "/mnt/c/Program Files/Git/cmd/"
+      - "/mnt/c/Program Files/PyManager/"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/"
+      - "/mnt/d/Apps/Shortcuts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/"
+      - "/snap/bin/"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/"
+    searched_directories:
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/uname"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/uname"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/uname"
+      - "/home/cyril/.local/bin/uname"
+      - "/usr/local/sbin/uname"
+      - "/usr/local/bin/uname"
+      - "/usr/sbin/uname"
+    found: "/usr/bin/uname"
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineSystem.cmake:212 (message)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      The system is: Linux - 6.6.87.2-microsoft-standard-WSL2 - x86_64
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeUnixFindMake.cmake:5 (find_program)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_MAKE_PROGRAM"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "gmake"
+      - "make"
+      - "smake"
+    candidate_directories:
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/"
+      - "/home/cyril/.local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/usr/lib/wsl/lib/"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+      - "/mnt/c/WINDOWS/system32/"
+      - "/mnt/c/WINDOWS/"
+      - "/mnt/c/WINDOWS/System32/Wbem/"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "/mnt/c/Program Files/dotnet/"
+      - "/mnt/c/Program Files/Git/cmd/"
+      - "/mnt/c/Program Files/PyManager/"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/"
+      - "/mnt/d/Apps/Shortcuts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/"
+      - "/snap/bin/"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/"
+    searched_directories:
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/gmake"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/gmake"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/gmake"
+      - "/home/cyril/.local/bin/gmake"
+      - "/usr/local/sbin/gmake"
+      - "/usr/local/bin/gmake"
+      - "/usr/sbin/gmake"
+      - "/usr/bin/gmake"
+      - "/sbin/gmake"
+      - "/bin/gmake"
+      - "/usr/games/gmake"
+      - "/usr/local/games/gmake"
+      - "/usr/lib/wsl/lib/gmake"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/gmake"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/gmake"
+      - "/mnt/c/WINDOWS/system32/gmake"
+      - "/mnt/c/WINDOWS/gmake"
+      - "/mnt/c/WINDOWS/System32/Wbem/gmake"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/gmake"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/gmake"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/gmake"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/gmake"
+      - "/mnt/c/Program Files/dotnet/gmake"
+      - "/mnt/c/Program Files/Git/cmd/gmake"
+      - "/mnt/c/Program Files/PyManager/gmake"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/gmake"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/gmake"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/gmake"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/gmake"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/gmake"
+      - "/mnt/d/Apps/Shortcuts/gmake"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/gmake"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/gmake"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/gmake"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/gmake"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/gmake"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/gmake"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/gmake"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/gmake"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/gmake"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/gmake"
+      - "/snap/bin/gmake"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/gmake"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/make"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/make"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/make"
+      - "/home/cyril/.local/bin/make"
+      - "/usr/local/sbin/make"
+      - "/usr/local/bin/make"
+      - "/usr/sbin/make"
+    found: "/usr/bin/make"
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCompiler.cmake:73 (find_program)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:69 (_cmake_find_compiler)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_CXX_COMPILER"
+    description: "CXX compiler"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "c++"
+      - "CC"
+      - "g++"
+      - "aCC"
+      - "cl"
+      - "bcc"
+      - "xlC"
+      - "icpx"
+      - "icx"
+      - "clang++"
+    candidate_directories:
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/"
+      - "/home/cyril/.local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/usr/lib/wsl/lib/"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+      - "/mnt/c/WINDOWS/system32/"
+      - "/mnt/c/WINDOWS/"
+      - "/mnt/c/WINDOWS/System32/Wbem/"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "/mnt/c/Program Files/dotnet/"
+      - "/mnt/c/Program Files/Git/cmd/"
+      - "/mnt/c/Program Files/PyManager/"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/"
+      - "/mnt/d/Apps/Shortcuts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/"
+      - "/snap/bin/"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/"
+    searched_directories:
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/c++"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/c++"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/c++"
+      - "/home/cyril/.local/bin/c++"
+      - "/usr/local/sbin/c++"
+      - "/usr/local/bin/c++"
+      - "/usr/sbin/c++"
+    found: "/usr/bin/c++"
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/"
+    found: "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: /usr/bin/c++ 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+      
+      The CXX compiler identification is GNU, found in:
+        /home/cyril/clang-cpp-obf/CMakeFiles/4.2.0/CompilerIdCXX/a.out
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_AR"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ar"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/"
+      - "/home/cyril/.local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/usr/lib/wsl/lib/"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+      - "/mnt/c/WINDOWS/system32/"
+      - "/mnt/c/WINDOWS/"
+      - "/mnt/c/WINDOWS/System32/Wbem/"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "/mnt/c/Program Files/dotnet/"
+      - "/mnt/c/Program Files/Git/cmd/"
+      - "/mnt/c/Program Files/PyManager/"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/"
+      - "/mnt/d/Apps/Shortcuts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/"
+      - "/snap/bin/"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/"
+    found: "/usr/bin/ar"
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_RANLIB"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ranlib"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/"
+      - "/home/cyril/.local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/usr/lib/wsl/lib/"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+      - "/mnt/c/WINDOWS/system32/"
+      - "/mnt/c/WINDOWS/"
+      - "/mnt/c/WINDOWS/System32/Wbem/"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "/mnt/c/Program Files/dotnet/"
+      - "/mnt/c/Program Files/Git/cmd/"
+      - "/mnt/c/Program Files/PyManager/"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/"
+      - "/mnt/d/Apps/Shortcuts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/"
+      - "/snap/bin/"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/"
+    found: "/usr/bin/ranlib"
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_STRIP"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "strip"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/"
+      - "/home/cyril/.local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/usr/lib/wsl/lib/"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+      - "/mnt/c/WINDOWS/system32/"
+      - "/mnt/c/WINDOWS/"
+      - "/mnt/c/WINDOWS/System32/Wbem/"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "/mnt/c/Program Files/dotnet/"
+      - "/mnt/c/Program Files/Git/cmd/"
+      - "/mnt/c/Program Files/PyManager/"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/"
+      - "/mnt/d/Apps/Shortcuts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/"
+      - "/snap/bin/"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/"
+    found: "/usr/bin/strip"
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_LINKER"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ld"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/"
+      - "/home/cyril/.local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/usr/lib/wsl/lib/"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+      - "/mnt/c/WINDOWS/system32/"
+      - "/mnt/c/WINDOWS/"
+      - "/mnt/c/WINDOWS/System32/Wbem/"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "/mnt/c/Program Files/dotnet/"
+      - "/mnt/c/Program Files/Git/cmd/"
+      - "/mnt/c/Program Files/PyManager/"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/"
+      - "/mnt/d/Apps/Shortcuts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/"
+      - "/snap/bin/"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/"
+    found: "/usr/bin/ld"
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_NM"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "nm"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/"
+      - "/home/cyril/.local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/usr/lib/wsl/lib/"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+      - "/mnt/c/WINDOWS/system32/"
+      - "/mnt/c/WINDOWS/"
+      - "/mnt/c/WINDOWS/System32/Wbem/"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "/mnt/c/Program Files/dotnet/"
+      - "/mnt/c/Program Files/Git/cmd/"
+      - "/mnt/c/Program Files/PyManager/"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/"
+      - "/mnt/d/Apps/Shortcuts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/"
+      - "/snap/bin/"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/"
+    found: "/usr/bin/nm"
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_OBJDUMP"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "objdump"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/"
+      - "/home/cyril/.local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/usr/lib/wsl/lib/"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+      - "/mnt/c/WINDOWS/system32/"
+      - "/mnt/c/WINDOWS/"
+      - "/mnt/c/WINDOWS/System32/Wbem/"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "/mnt/c/Program Files/dotnet/"
+      - "/mnt/c/Program Files/Git/cmd/"
+      - "/mnt/c/Program Files/PyManager/"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/"
+      - "/mnt/d/Apps/Shortcuts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/"
+      - "/snap/bin/"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/"
+    found: "/usr/bin/objdump"
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_OBJCOPY"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "objcopy"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/"
+      - "/home/cyril/.local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/usr/lib/wsl/lib/"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+      - "/mnt/c/WINDOWS/system32/"
+      - "/mnt/c/WINDOWS/"
+      - "/mnt/c/WINDOWS/System32/Wbem/"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "/mnt/c/Program Files/dotnet/"
+      - "/mnt/c/Program Files/Git/cmd/"
+      - "/mnt/c/Program Files/PyManager/"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/"
+      - "/mnt/d/Apps/Shortcuts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/"
+      - "/snap/bin/"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/"
+    found: "/usr/bin/objcopy"
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_READELF"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "readelf"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/"
+      - "/home/cyril/.local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/usr/lib/wsl/lib/"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+      - "/mnt/c/WINDOWS/system32/"
+      - "/mnt/c/WINDOWS/"
+      - "/mnt/c/WINDOWS/System32/Wbem/"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "/mnt/c/Program Files/dotnet/"
+      - "/mnt/c/Program Files/Git/cmd/"
+      - "/mnt/c/Program Files/PyManager/"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/"
+      - "/mnt/d/Apps/Shortcuts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/"
+      - "/snap/bin/"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/"
+    found: "/usr/bin/readelf"
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_DLLTOOL"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "dlltool"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/"
+      - "/home/cyril/.local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/usr/lib/wsl/lib/"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+      - "/mnt/c/WINDOWS/system32/"
+      - "/mnt/c/WINDOWS/"
+      - "/mnt/c/WINDOWS/System32/Wbem/"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "/mnt/c/Program Files/dotnet/"
+      - "/mnt/c/Program Files/Git/cmd/"
+      - "/mnt/c/Program Files/PyManager/"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/"
+      - "/mnt/d/Apps/Shortcuts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/"
+      - "/snap/bin/"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/"
+    searched_directories:
+      - "/usr/bin/dlltool"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/dlltool"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/dlltool"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/dlltool"
+      - "/home/cyril/.local/bin/dlltool"
+      - "/usr/local/sbin/dlltool"
+      - "/usr/local/bin/dlltool"
+      - "/usr/sbin/dlltool"
+      - "/sbin/dlltool"
+      - "/bin/dlltool"
+      - "/usr/games/dlltool"
+      - "/usr/local/games/dlltool"
+      - "/usr/lib/wsl/lib/dlltool"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/dlltool"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/dlltool"
+      - "/mnt/c/WINDOWS/system32/dlltool"
+      - "/mnt/c/WINDOWS/dlltool"
+      - "/mnt/c/WINDOWS/System32/Wbem/dlltool"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/dlltool"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/dlltool"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/dlltool"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/dlltool"
+      - "/mnt/c/Program Files/dotnet/dlltool"
+      - "/mnt/c/Program Files/Git/cmd/dlltool"
+      - "/mnt/c/Program Files/PyManager/dlltool"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/dlltool"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/dlltool"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/dlltool"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/dlltool"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/dlltool"
+      - "/mnt/d/Apps/Shortcuts/dlltool"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/dlltool"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/dlltool"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/dlltool"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/dlltool"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/dlltool"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/dlltool"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/dlltool"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/dlltool"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/dlltool"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/dlltool"
+      - "/snap/bin/dlltool"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/dlltool"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_ADDR2LINE"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "addr2line"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/"
+      - "/home/cyril/.local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/usr/lib/wsl/lib/"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+      - "/mnt/c/WINDOWS/system32/"
+      - "/mnt/c/WINDOWS/"
+      - "/mnt/c/WINDOWS/System32/Wbem/"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "/mnt/c/Program Files/dotnet/"
+      - "/mnt/c/Program Files/Git/cmd/"
+      - "/mnt/c/Program Files/PyManager/"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/"
+      - "/mnt/d/Apps/Shortcuts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/"
+      - "/snap/bin/"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/"
+    found: "/usr/bin/addr2line"
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_TAPI"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "tapi"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/"
+      - "/home/cyril/.local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/usr/lib/wsl/lib/"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+      - "/mnt/c/WINDOWS/system32/"
+      - "/mnt/c/WINDOWS/"
+      - "/mnt/c/WINDOWS/System32/Wbem/"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "/mnt/c/Program Files/dotnet/"
+      - "/mnt/c/Program Files/Git/cmd/"
+      - "/mnt/c/Program Files/PyManager/"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/"
+      - "/mnt/d/Apps/Shortcuts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/"
+      - "/snap/bin/"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/"
+    searched_directories:
+      - "/usr/bin/tapi"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/tapi"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/tapi"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/tapi"
+      - "/home/cyril/.local/bin/tapi"
+      - "/usr/local/sbin/tapi"
+      - "/usr/local/bin/tapi"
+      - "/usr/sbin/tapi"
+      - "/sbin/tapi"
+      - "/bin/tapi"
+      - "/usr/games/tapi"
+      - "/usr/local/games/tapi"
+      - "/usr/lib/wsl/lib/tapi"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/tapi"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/tapi"
+      - "/mnt/c/WINDOWS/system32/tapi"
+      - "/mnt/c/WINDOWS/tapi"
+      - "/mnt/c/WINDOWS/System32/Wbem/tapi"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/tapi"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/tapi"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/tapi"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/tapi"
+      - "/mnt/c/Program Files/dotnet/tapi"
+      - "/mnt/c/Program Files/Git/cmd/tapi"
+      - "/mnt/c/Program Files/PyManager/tapi"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/tapi"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/tapi"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/tapi"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/tapi"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/tapi"
+      - "/mnt/d/Apps/Shortcuts/tapi"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/tapi"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/tapi"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/tapi"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/tapi"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/tapi"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/tapi"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/tapi"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/tapi"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/tapi"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/tapi"
+      - "/snap/bin/tapi"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/tapi"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/Compiler/GNU-FindBinUtils.cmake:18 (find_program)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:207 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_CXX_COMPILER_AR"
+    description: "A wrapper around 'ar' adding the appropriate '--plugin' option for the GCC compiler"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "gcc-ar-9.4"
+      - "gcc-ar-9"
+      - "gcc-ar9"
+      - "gcc-ar"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/"
+      - "/home/cyril/.local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/usr/lib/wsl/lib/"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+      - "/mnt/c/WINDOWS/system32/"
+      - "/mnt/c/WINDOWS/"
+      - "/mnt/c/WINDOWS/System32/Wbem/"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "/mnt/c/Program Files/dotnet/"
+      - "/mnt/c/Program Files/Git/cmd/"
+      - "/mnt/c/Program Files/PyManager/"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/"
+      - "/mnt/d/Apps/Shortcuts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/"
+      - "/snap/bin/"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/"
+    searched_directories:
+      - "/usr/bin/gcc-ar-9.4"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar-9.4"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/gcc-ar-9.4"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/gcc-ar-9.4"
+      - "/home/cyril/.local/bin/gcc-ar-9.4"
+      - "/usr/local/sbin/gcc-ar-9.4"
+      - "/usr/local/bin/gcc-ar-9.4"
+      - "/usr/sbin/gcc-ar-9.4"
+      - "/sbin/gcc-ar-9.4"
+      - "/bin/gcc-ar-9.4"
+      - "/usr/games/gcc-ar-9.4"
+      - "/usr/local/games/gcc-ar-9.4"
+      - "/usr/lib/wsl/lib/gcc-ar-9.4"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/gcc-ar-9.4"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/gcc-ar-9.4"
+      - "/mnt/c/WINDOWS/system32/gcc-ar-9.4"
+      - "/mnt/c/WINDOWS/gcc-ar-9.4"
+      - "/mnt/c/WINDOWS/System32/Wbem/gcc-ar-9.4"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/gcc-ar-9.4"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/gcc-ar-9.4"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/gcc-ar-9.4"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/gcc-ar-9.4"
+      - "/mnt/c/Program Files/dotnet/gcc-ar-9.4"
+      - "/mnt/c/Program Files/Git/cmd/gcc-ar-9.4"
+      - "/mnt/c/Program Files/PyManager/gcc-ar-9.4"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/gcc-ar-9.4"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/gcc-ar-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/gcc-ar-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/gcc-ar-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/gcc-ar-9.4"
+      - "/mnt/d/Apps/Shortcuts/gcc-ar-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar-9.4"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/gcc-ar-9.4"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/gcc-ar-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/gcc-ar-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/gcc-ar-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/gcc-ar-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/gcc-ar-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/gcc-ar-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/gcc-ar-9.4"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/gcc-ar-9.4"
+      - "/snap/bin/gcc-ar-9.4"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/gcc-ar-9.4"
+    found: "/usr/bin/gcc-ar-9"
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/Compiler/GNU-FindBinUtils.cmake:30 (find_program)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:207 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_CXX_COMPILER_RANLIB"
+    description: "A wrapper around 'ranlib' adding the appropriate '--plugin' option for the GCC compiler"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "gcc-ranlib-9.4"
+      - "gcc-ranlib-9"
+      - "gcc-ranlib9"
+      - "gcc-ranlib"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/"
+      - "/home/cyril/.local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/usr/lib/wsl/lib/"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+      - "/mnt/c/WINDOWS/system32/"
+      - "/mnt/c/WINDOWS/"
+      - "/mnt/c/WINDOWS/System32/Wbem/"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "/mnt/c/Program Files/dotnet/"
+      - "/mnt/c/Program Files/Git/cmd/"
+      - "/mnt/c/Program Files/PyManager/"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/"
+      - "/mnt/d/Apps/Shortcuts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/"
+      - "/snap/bin/"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/"
+    searched_directories:
+      - "/usr/bin/gcc-ranlib-9.4"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib-9.4"
+      - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/gcc-ranlib-9.4"
+      - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/gcc-ranlib-9.4"
+      - "/home/cyril/.local/bin/gcc-ranlib-9.4"
+      - "/usr/local/sbin/gcc-ranlib-9.4"
+      - "/usr/local/bin/gcc-ranlib-9.4"
+      - "/usr/sbin/gcc-ranlib-9.4"
+      - "/sbin/gcc-ranlib-9.4"
+      - "/bin/gcc-ranlib-9.4"
+      - "/usr/games/gcc-ranlib-9.4"
+      - "/usr/local/games/gcc-ranlib-9.4"
+      - "/usr/lib/wsl/lib/gcc-ranlib-9.4"
+      - "/mnt/c/Program Files/Zulu/zulu-8/bin/gcc-ranlib-9.4"
+      - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/gcc-ranlib-9.4"
+      - "/mnt/c/WINDOWS/system32/gcc-ranlib-9.4"
+      - "/mnt/c/WINDOWS/gcc-ranlib-9.4"
+      - "/mnt/c/WINDOWS/System32/Wbem/gcc-ranlib-9.4"
+      - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/gcc-ranlib-9.4"
+      - "/mnt/c/WINDOWS/System32/OpenSSH/gcc-ranlib-9.4"
+      - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/gcc-ranlib-9.4"
+      - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common/gcc-ranlib-9.4"
+      - "/mnt/c/Program Files/dotnet/gcc-ranlib-9.4"
+      - "/mnt/c/Program Files/Git/cmd/gcc-ranlib-9.4"
+      - "/mnt/c/Program Files/PyManager/gcc-ranlib-9.4"
+      - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/gcc-ranlib-9.4"
+      - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/gcc-ranlib-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts/gcc-ranlib-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/gcc-ranlib-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-9.4"
+      - "/mnt/d/Apps/Shortcuts/gcc-ranlib-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib-9.4"
+      - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin/gcc-ranlib-9.4"
+      - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64/gcc-ranlib-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe/gcc-ranlib-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts/gcc-ranlib-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Python/bin/gcc-ranlib-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links/gcc-ranlib-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler/gcc-ranlib-9.4"
+      - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama/gcc-ranlib-9.4"
+      - "/mnt/c/Users/zsy16/.dotnet/tools/gcc-ranlib-9.4"
+      - "/snap/bin/gcc-ranlib-9.4"
+      - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts/gcc-ranlib-9.4"
+    found: "/usr/bin/gcc-ranlib-9"
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "/home/cyril/clang-cpp-obf/CMakeFiles/CMakeScratch/TryCompile-ew0RoA"
+      binary: "/home/cyril/clang-cpp-obf/CMakeFiles/CMakeScratch/TryCompile-ew0RoA"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/cyril/clang-cpp-obf/CMakeFiles/CMakeScratch/TryCompile-ew0RoA'
+        
+        Run Build Command(s): /snap/cmake/1499/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_ac2f1/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_ac2f1.dir/build.make CMakeFiles/cmTC_ac2f1.dir/build
+        make[1]: Entering directory '/home/cyril/clang-cpp-obf/CMakeFiles/CMakeScratch/TryCompile-ew0RoA'
+        Building CXX object CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o
+        /usr/bin/c++   -v -o CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o -c /snap/cmake/1499/share/cmake-4.2/Modules/CMakeCXXCompilerABI.cpp
+        Using built-in specs.
+        COLLECT_GCC=/usr/bin/c++
+        OFFLOAD_TARGET_NAMES=nvptx-none:hsa
+        OFFLOAD_TARGET_DEFAULT=1
+        Target: x86_64-linux-gnu
+        Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.4.0-1ubuntu1~20.04.2' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-9QDOt0/gcc-9-9.4.0/debian/tmp-nvptx/usr,hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+        Thread model: posix
+        gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.2) 
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+         /usr/lib/gcc/x86_64-linux-gnu/9/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /snap/cmake/1499/share/cmake-4.2/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccgyQVUK.s
+        GNU C++14 (Ubuntu 9.4.0-1ubuntu1~20.04.2) version 9.4.0 (x86_64-linux-gnu)
+        	compiled by GNU C version 9.4.0, GMP version 6.2.0, MPFR version 4.0.2, MPC version 1.1.0, isl version isl-0.22.1-GMP
+        
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/9"
+        ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"
+        ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/include-fixed"
+        ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/include"
+        ignoring nonexistent directory "/usr/local/opt/llvm/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         .
+         /usr/include/c++/9
+         /usr/include/x86_64-linux-gnu/c++/9
+         /usr/include/c++/9/backward
+         /usr/lib/gcc/x86_64-linux-gnu/9/include
+         /usr/local/include
+         /usr/include/x86_64-linux-gnu
+         /usr/include
+        End of search list.
+        GNU C++14 (Ubuntu 9.4.0-1ubuntu1~20.04.2) version 9.4.0 (x86_64-linux-gnu)
+        	compiled by GNU C version 9.4.0, GMP version 6.2.0, MPFR version 4.0.2, MPC version 1.1.0, isl version isl-0.22.1-GMP
+        
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        Compiler executable checksum: 3d1eba838554fa2348dba760e4770469
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+         as -v --64 -o CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccgyQVUK.s
+        GNU assembler version 2.34 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.34
+        COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/
+        LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:./:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+        Linking CXX executable cmTC_ac2f1
+        /snap/cmake/1499/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ac2f1.dir/link.txt --verbose=1
+        Using built-in specs.
+        COLLECT_GCC=/usr/bin/c++
+        COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper
+        OFFLOAD_TARGET_NAMES=nvptx-none:hsa
+        OFFLOAD_TARGET_DEFAULT=1
+        Target: x86_64-linux-gnu
+        Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.4.0-1ubuntu1~20.04.2' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-9QDOt0/gcc-9-9.4.0/debian/tmp-nvptx/usr,hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+        Thread model: posix
+        gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.2) 
+        COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/
+        LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:./:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_ac2f1' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+         /usr/lib/gcc/x86_64-linux-gnu/9/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper -plugin-opt=-fresolution=/tmp/cc3ONFDb.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_ac2f1 /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/9 -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L. -L/usr/lib/gcc/x86_64-linux-gnu/9/../../.. -v CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o
+        collect2 version 9.4.0
+        /usr/bin/ld -plugin /usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper -plugin-opt=-fresolution=/tmp/cc3ONFDb.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_ac2f1 /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/9 -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L. -L/usr/lib/gcc/x86_64-linux-gnu/9/../../.. -v CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o
+        GNU ld (GNU Binutils for Ubuntu) 2.34
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_ac2f1' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+        /usr/bin/c++  -v -Wl,-v CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_ac2f1
+        make[1]: Leaving directory '/home/cyril/clang-cpp-obf/CMakeFiles/CMakeScratch/TryCompile-ew0RoA'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:217 (message)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [.]
+          add: [/usr/include/c++/9]
+          add: [/usr/include/x86_64-linux-gnu/c++/9]
+          add: [/usr/include/c++/9/backward]
+          add: [/usr/lib/gcc/x86_64-linux-gnu/9/include]
+          add: [/usr/local/include]
+          add: [/usr/include/x86_64-linux-gnu]
+          add: [/usr/include]
+        end of search list found
+        skipping relative include dir [.]
+        collapse include dir [/usr/include/c++/9] ==> [/usr/include/c++/9]
+        collapse include dir [/usr/include/x86_64-linux-gnu/c++/9] ==> [/usr/include/x86_64-linux-gnu/c++/9]
+        collapse include dir [/usr/include/c++/9/backward] ==> [/usr/include/c++/9/backward]
+        collapse include dir [/usr/lib/gcc/x86_64-linux-gnu/9/include] ==> [/usr/lib/gcc/x86_64-linux-gnu/9/include]
+        collapse include dir [/usr/local/include] ==> [/usr/local/include]
+        collapse include dir [/usr/include/x86_64-linux-gnu] ==> [/usr/include/x86_64-linux-gnu]
+        collapse include dir [/usr/include] ==> [/usr/include]
+        implicit include dirs: [/usr/include/c++/9;/usr/include/x86_64-linux-gnu/c++/9;/usr/include/c++/9/backward;/usr/lib/gcc/x86_64-linux-gnu/9/include;/usr/local/include;/usr/include/x86_64-linux-gnu;/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:253 (message)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
+        ignore line: [Change Dir: '/home/cyril/clang-cpp-obf/CMakeFiles/CMakeScratch/TryCompile-ew0RoA']
+        ignore line: []
+        ignore line: [Run Build Command(s): /snap/cmake/1499/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_ac2f1/fast]
+        ignore line: [/usr/bin/make  -f CMakeFiles/cmTC_ac2f1.dir/build.make CMakeFiles/cmTC_ac2f1.dir/build]
+        ignore line: [make[1]: Entering directory '/home/cyril/clang-cpp-obf/CMakeFiles/CMakeScratch/TryCompile-ew0RoA']
+        ignore line: [Building CXX object CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/usr/bin/c++   -v -o CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o -c /snap/cmake/1499/share/cmake-4.2/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/usr/bin/c++]
+        ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:hsa]
+        ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+        ignore line: [Target: x86_64-linux-gnu]
+        ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.4.0-1ubuntu1~20.04.2' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c ada c++ go brig d fortran objc obj-c++ gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32 m64 mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-9QDOt0/gcc-9-9.4.0/debian/tmp-nvptx/usr hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu]
+        ignore line: [Thread model: posix]
+        ignore line: [gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.2) ]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/9/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /snap/cmake/1499/share/cmake-4.2/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccgyQVUK.s]
+        ignore line: [GNU C++14 (Ubuntu 9.4.0-1ubuntu1~20.04.2) version 9.4.0 (x86_64-linux-gnu)]
+        ignore line: [	compiled by GNU C version 9.4.0  GMP version 6.2.0  MPFR version 4.0.2  MPC version 1.1.0  isl version isl-0.22.1-GMP]
+        ignore line: []
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/9"]
+        ignore line: [ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"]
+        ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/include-fixed"]
+        ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/include"]
+        ignore line: [ignoring nonexistent directory "/usr/local/opt/llvm/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ .]
+        ignore line: [ /usr/include/c++/9]
+        ignore line: [ /usr/include/x86_64-linux-gnu/c++/9]
+        ignore line: [ /usr/include/c++/9/backward]
+        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/9/include]
+        ignore line: [ /usr/local/include]
+        ignore line: [ /usr/include/x86_64-linux-gnu]
+        ignore line: [ /usr/include]
+        ignore line: [End of search list.]
+        ignore line: [GNU C++14 (Ubuntu 9.4.0-1ubuntu1~20.04.2) version 9.4.0 (x86_64-linux-gnu)]
+        ignore line: [	compiled by GNU C version 9.4.0  GMP version 6.2.0  MPFR version 4.0.2  MPC version 1.1.0  isl version isl-0.22.1-GMP]
+        ignore line: []
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [Compiler executable checksum: 3d1eba838554fa2348dba760e4770469]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+        ignore line: [ as -v --64 -o CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccgyQVUK.s]
+        ignore line: [GNU assembler version 2.34 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.34]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:./:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+        ignore line: [Linking CXX executable cmTC_ac2f1]
+        ignore line: [/snap/cmake/1499/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ac2f1.dir/link.txt --verbose=1]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/usr/bin/c++]
+        ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper]
+        ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:hsa]
+        ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+        ignore line: [Target: x86_64-linux-gnu]
+        ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 9.4.0-1ubuntu1~20.04.2' --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c ada c++ go brig d fortran objc obj-c++ gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32 m64 mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-9QDOt0/gcc-9-9.4.0/debian/tmp-nvptx/usr hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu]
+        ignore line: [Thread model: posix]
+        ignore line: [gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.2) ]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:./:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_ac2f1' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+        link line: [ /usr/lib/gcc/x86_64-linux-gnu/9/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper -plugin-opt=-fresolution=/tmp/cc3ONFDb.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_ac2f1 /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/9 -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L. -L/usr/lib/gcc/x86_64-linux-gnu/9/../../.. -v CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o]
+          arg [/usr/lib/gcc/x86_64-linux-gnu/9/collect2] ==> ignore
+          arg [-plugin] ==> ignore
+          arg [/usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so] ==> ignore
+          arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/cc3ONFDb.res] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [--build-id] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [-m] ==> ignore
+          arg [elf_x86_64] ==> ignore
+          arg [--hash-style=gnu] ==> ignore
+          arg [--as-needed] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-znow] ==> ignore
+          arg [-zrelro] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_ac2f1] ==> ignore
+          arg [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o]
+          arg [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o]
+          arg [/usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o]
+          arg [-L/usr/lib/gcc/x86_64-linux-gnu/9] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9]
+          arg [-L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu]
+          arg [-L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib]
+          arg [-L/lib/x86_64-linux-gnu] ==> dir [/lib/x86_64-linux-gnu]
+          arg [-L/lib/../lib] ==> dir [/lib/../lib]
+          arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
+          arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
+          arg [-L.] ==> ignore
+          arg [-L/usr/lib/gcc/x86_64-linux-gnu/9/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../..]
+          arg [-v] ==> ignore
+          arg [CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [-lstdc++] ==> lib [stdc++]
+          arg [-lm] ==> lib [m]
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [-lgcc] ==> lib [gcc]
+          arg [-lc] ==> lib [c]
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [-lgcc] ==> lib [gcc]
+          arg [/usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o]
+          arg [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o]
+        ignore line: [collect2 version 9.4.0]
+        ignore line: [/usr/bin/ld -plugin /usr/lib/gcc/x86_64-linux-gnu/9/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper -plugin-opt=-fresolution=/tmp/cc3ONFDb.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_ac2f1 /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/9 -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L. -L/usr/lib/gcc/x86_64-linux-gnu/9/../../.. -v CMakeFiles/cmTC_ac2f1.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o]
+        linker tool for 'CXX': /usr/bin/ld
+        collapse obj [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o] ==> [/usr/lib/x86_64-linux-gnu/Scrt1.o]
+        collapse obj [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o] ==> [/usr/lib/x86_64-linux-gnu/crti.o]
+        collapse obj [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o] ==> [/usr/lib/x86_64-linux-gnu/crtn.o]
+        collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9] ==> [/usr/lib/gcc/x86_64-linux-gnu/9]
+        collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+        collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib] ==> [/usr/lib]
+        collapse library dir [/lib/x86_64-linux-gnu] ==> [/lib/x86_64-linux-gnu]
+        collapse library dir [/lib/../lib] ==> [/lib]
+        collapse library dir [/usr/lib/x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+        collapse library dir [/usr/lib/../lib] ==> [/usr/lib]
+        collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/9/../../..] ==> [/usr/lib]
+        implicit libs: [stdc++;m;gcc_s;gcc;c;gcc_s;gcc]
+        implicit objs: [/usr/lib/x86_64-linux-gnu/Scrt1.o;/usr/lib/x86_64-linux-gnu/crti.o;/usr/lib/gcc/x86_64-linux-gnu/9/crtbeginS.o;/usr/lib/gcc/x86_64-linux-gnu/9/crtendS.o;/usr/lib/x86_64-linux-gnu/crtn.o]
+        implicit dirs: [/usr/lib/gcc/x86_64-linux-gnu/9;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/Internal/CMakeDetermineLinkerId.cmake:38 (message)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:299 (cmake_determine_linker_id)"
+      - "/snap/cmake/1499/share/cmake-4.2/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the CXX compiler's linker: "/usr/bin/ld" "-v"
+      GNU ld (GNU Binutils for Ubuntu) 2.34
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "CMakeLists.txt:8 (find_package)"
+    name: "LLVM"
+    configs:
+      -
+        filename: "LLVMConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "llvm-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "required_explicit"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "LLVM"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "/home/cyril/clang-cpp-obf/CMakeFiles/pkgRedirects/LLVMConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/clang-cpp-obf/CMakeFiles/pkgRedirects/llvm-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/LLVMConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/llvm-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/LLVMConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/llvm-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/LLVMConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/llvm-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/.local/LLVMConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/.local/llvm-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/local/LLVMConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/local/llvm-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/LLVMConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/llvm-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/lib/llvm-10/LLVMConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/lib/llvm-10/llvm-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found:
+      path: "/usr/lib/llvm-10/cmake/LLVMConfig.cmake"
+      mode: "config"
+      version: "10.0.0"
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/snap/cmake/1499"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "CMakeLists.txt:9 (find_package)"
+    name: "Clang"
+    configs:
+      -
+        filename: "ClangConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "clang-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "required_explicit"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "Clang"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "/home/cyril/clang-cpp-obf/CMakeFiles/pkgRedirects/ClangConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/clang-cpp-obf/CMakeFiles/pkgRedirects/clang-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/ClangConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/clang-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/ClangConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/clang-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/ClangConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli/clang-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/.local/ClangConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/cyril/.local/clang-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/local/ClangConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/local/clang-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/ClangConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/clang-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found:
+      path: "/usr/lib/cmake/clang-10/ClangConfig.cmake"
+      mode: "config"
+      version: ""
+    search_context:
+      ENV{PATH}:
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/home/cyril/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/cyril/.vscode-server/bin/1e3c50d64110be466c0b4a45222e81d2c9352888/bin/remote-cli"
+        - "/home/cyril/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/usr/lib/wsl/lib"
+        - "/mnt/c/Program Files/Zulu/zulu-8/bin/"
+        - "/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/"
+        - "/mnt/c/WINDOWS/system32"
+        - "/mnt/c/WINDOWS"
+        - "/mnt/c/WINDOWS/System32/Wbem"
+        - "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "/mnt/c/WINDOWS/System32/OpenSSH/"
+        - "/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR"
+        - "/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common"
+        - "/mnt/c/Program Files/dotnet/"
+        - "/mnt/c/Program Files/Git/cmd"
+        - "/mnt/c/Program Files/PyManager/"
+        - "/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+        - "/mnt/c/Program Files/Cloudflare/Cloudflare WARP/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Python/Python313/"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/d/Apps/Shortcuts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "/mnt/d/Apps/TDM-GCC-32_9.2.0/bin"
+        - "/mnt/c/Users/zsy16/PyCharmMiscProject/chromedriver-win64"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Packages/cloudbase.qemu-img_Microsoft.Winget.Source_8wekyb3d8bbwe"
+        - "/mnt/c/Users/zsy16/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/Scripts"
+        - "/mnt/c/Users/zsy16/AppData/Local/Python/bin"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WinGet/Links"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Fiddler"
+        - "/mnt/c/Users/zsy16/AppData/Local/Microsoft/WindowsApps"
+        - "/mnt/c/Users/zsy16/AppData/Local/Programs/Ollama"
+        - "/mnt/c/Users/zsy16/.dotnet/tools"
+        - "/snap/bin"
+        - "/home/cyril/.local/bin"
+        - "/home/cyril/.vscode-server/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts"
+        - "/home/cyril/.local/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/snap/cmake/1499"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+...

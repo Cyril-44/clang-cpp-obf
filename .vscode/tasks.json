@@ -1,0 +1,18 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CMake: build",
+      "type": "shell",
+      "command": "cmake --build build --config Debug -- -j2",
+      "group": "build",
+      "problemMatcher": ["$gcc"],   // 或者 "$clang"
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
+      }
+    }
+  ]
+}

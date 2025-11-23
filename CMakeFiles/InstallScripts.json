@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/cyril/clang-cpp-obf/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
