@@ -1,5 +1,0 @@
-/home/cyril/clang-cpp-obf/CMakeFiles/intrinsics_gen.dir
-/home/cyril/clang-cpp-obf/CMakeFiles/clang-tablegen-targets.dir
-/home/cyril/clang-cpp-obf/CMakeFiles/cppobf.dir
-/home/cyril/clang-cpp-obf/CMakeFiles/edit_cache.dir
-/home/cyril/clang-cpp-obf/CMakeFiles/rebuild_cache.dir

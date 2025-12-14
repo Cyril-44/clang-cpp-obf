@@ -16,6 +16,8 @@ include_directories(${CLANG_INCLUDE_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
 
 # 强制 Release 模式使用 -O2
+set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -Wall -fsanitize=address")
+
 set(CMAKE_CXX_FLAGS_RELEASE "-O2 -O3 -Ofast")
 
 set(CMAKE_EXE_LINKER_FLAGS "")

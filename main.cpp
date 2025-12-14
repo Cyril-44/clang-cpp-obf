@@ -1,13 +1,25 @@
-// main.cpp
-// cppobf - Clang-based obfuscator (AST + macro renaming), adjusted for
-// Clang 10. Build: link clangTooling clangBasic clangASTMatchers clangRewrite
-// clangIndex
+// main_refactored.cpp
+// 重构自用户上传的 main.cpp，目标：清晰化函数边界、命名、并移除重复代码。
+// 保持原有功能（基于 Clang 的重命名与字面量混淆）的大体流程。
 
 #include <algorithm>
-#include <bits/stdc++.h>
+#include <chrono>
+#include <fstream>
+#include <iostream>
+#include <iterator>
+#include <memory>
+#include <random>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
 
 #include "clang/AST/AST.h"
+#include "clang/AST/ASTContext.h"
+#include "clang/AST/DeclCXX.h"
+#include "clang/AST/Expr.h"
 #include "clang/AST/RecursiveASTVisitor.h"
+#include "clang/AST/Stmt.h"
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendActions.h"
 #include "clang/Index/USRGeneration.h"
@@ -18,43 +30,24 @@
 #include "llvm/ADT/SmallString.h"
 #include "llvm/Support/CommandLine.h"
 #include "llvm/Support/Error.h"
-// --- 新增：文件顶部放在 NameGenerator 之后或合适位置 ---
-#include "clang/AST/ASTContext.h"
-#include "clang/AST/ASTContext.h"    // ASTContext
-#include "clang/AST/ASTTypeTraits.h" // clang::DynTypedNode (DynTypedNode 等)
-#include "clang/AST/Expr.h"
-#include "clang/AST/Expr.h" // Expr, IntegerLiteral, StringLiteral...
-#include "clang/AST/Stmt.h"
-#include "clang/Lex/LiteralSupport.h"
-#include "llvm/ADT/APInt.h"
-#include "llvm/ADT/SmallVector.h" // llvm::SmallVector
+#include "clang/Basic/CharInfo.h"
+
 
 using namespace clang;
 using namespace clang::tooling;
 using namespace llvm;
+using std::string;
 
+// -------------------- 小工具 / 类型别名 --------------------
+using StringVec = std::vector<string>;
+
+// -------------------- NameGenerator --------------------
 class NameGenerator {
 public:
-  explicit NameGenerator(size_t len = 32, const std::string &prefix = "")
-      : length(len), prefix(prefix) {
-    auto now = std::chrono::high_resolution_clock::now().time_since_epoch();
-    uint64_t seed = static_cast<uint64_t>(
-        std::chrono::duration_cast<std::chrono::nanoseconds>(now).count());
-    rng.seed(seed);
-
-    for (char c = 'A'; c <= 'Z'; ++c)
-      alphaNum.push_back(c);
-    for (char c = 'a'; c <= 'z'; ++c)
-      alphaNum.push_back(c);
-    for (char c = '0'; c <= '9'; ++c)
-      alphaNum.push_back(c);
-
-    for (char c = 'A'; c <= 'Z'; ++c)
-      firstChar.push_back(c);
-    for (char c = 'a'; c <= 'z'; ++c)
-      firstChar.push_back(c);
-    firstChar.push_back('_');
-
+  explicit NameGenerator(size_t len = 32, const std::string &pref = "")
+      : length(len), prefix(pref) {
+    seedRng();
+    buildCharPools();
     distAll = std::uniform_int_distribution<size_t>(0, alphaNum.size() - 1);
     distFirst = std::uniform_int_distribution<size_t>(0, firstChar.size() - 1);
   }
@@ -62,24 +55,25 @@ public:
   std::string generate() {
     std::string s;
     s.reserve(prefix.size() + length);
-    s += firstChar[distFirst(rng)];
+    s.push_back(firstChar[distFirst(rng)]);
     for (size_t i = 1; i < length; ++i)
-      s += alphaNum[distAll(rng)];
+      s.push_back(alphaNum[distAll(rng)]);
     if (!prefix.empty())
       s = prefix + s;
 
-    size_t tries = 0;
-    while (!used.insert(s).second) {
-      if (++tries > 16) {
+    // 确保唯一
+    for (int tries = 0; !used.insert(s).second; ++tries) {
+      if (tries > 16) {
         s += '_' + std::to_string(tries);
         if (used.insert(s).second)
           break;
       }
-      std::string body;
-      body += firstChar[distFirst(rng)];
+      s.clear();
+      s.push_back(firstChar[distFirst(rng)]);
       for (size_t i = 1; i < length; ++i)
-        body += alphaNum[distAll(rng)];
-      s = prefix.empty() ? body : (prefix + body);
+        s.push_back(alphaNum[distAll(rng)]);
+      if (!prefix.empty())
+        s = prefix + s;
     }
     return s;
   }
@@ -87,6 +81,26 @@ public:
   void reset() { used.clear(); }
 
 private:
+  void seedRng() {
+    auto now = std::chrono::high_resolution_clock::now().time_since_epoch();
+    uint64_t seed = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::nanoseconds>(now).count());
+    rng.seed(seed);
+  }
+  void buildCharPools() {
+    for (char c = 'A'; c <= 'Z'; ++c)
+      alphaNum.push_back(c);
+    for (char c = 'a'; c <= 'z'; ++c)
+      alphaNum.push_back(c);
+    for (char c = '0'; c <= '9'; ++c)
+      alphaNum.push_back(c);
+    for (char c = 'A'; c <= 'Z'; ++c)
+      firstChar.push_back(c);
+    for (char c = 'a'; c <= 'z'; ++c)
+      firstChar.push_back(c);
+    firstChar.push_back('_');
+  }
+
   size_t length;
   std::string prefix;
   std::mt19937_64 rng;
@@ -97,23 +111,18 @@ private:
   std::uniform_int_distribution<size_t> distFirst;
 };
 
-std::string GLOBAL_GENERATED_CPPOBF_DECODE_FUNC_NAME;
-
+// -------------------- ObfDataManager --------------------
+// 负责生成并缓存用于混淆的静态定义（字符串、整数、字符），以及在需要时
+// 将这些定义注入到翻译单元开头。
 struct ObfDataManager {
   Rewriter &R;
   NameGenerator &gen;
   const SourceManager &SM;
-  std::unordered_map<std::string, std::string> strMap; // original -> varname
-  std::unordered_map<long long, std::string>
-      intMap; // encoded value -> varname (optional)
-  std::unordered_map<int, std::string> charMap;
-  bool injected = false;
-  std::string headerInsert; // cached definitions to inject
 
   ObfDataManager(Rewriter &R, NameGenerator &g, const SourceManager &SM)
       : R(R), gen(g), SM(SM) {}
 
-  // simple single-byte xor encoder
+  // 生成单字节 key
   static uint8_t chooseKey() {
     static std::mt19937_64 rng(
         (uint64_t)std::chrono::high_resolution_clock::now()
@@ -122,89 +131,75 @@ struct ObfDataManager {
     return static_cast<uint8_t>(rng() & 0xFF);
   }
 
+  // 为字符串生成静态编码数组并返回存储标识 "name:hexKey"
   std::string makeStrVar(const std::string &s) {
     auto it = strMap.find(s);
     if (it != strMap.end())
       return it->second;
+
     std::string var = gen.generate();
     uint8_t key = chooseKey();
-    // encode bytes by xor key
-    std::string encoded;
-    encoded.reserve(s.size() + 1);
-    for (unsigned char c : s)
-      encoded.push_back(static_cast<char>(c ^ key));
-    // terminate
-    encoded.push_back(static_cast<char>(0 ^ key));
-    // build C literal for array of unsigned char
-    std::string arr = "static constexpr unsigned char " + var + "[] = {";
-    for (size_t i = 0; i < encoded.size(); ++i) {
-      unsigned char b = static_cast<unsigned char>(encoded[i]);
-      arr += "0x";
-      char buf[3];
-      snprintf(buf, sizeof(buf), "%02x", b);
-      arr += buf;
-      if (i + 1 < encoded.size())
-        arr += ",";
-    }
-    arr += "};\n";
-    // also generate a tiny inline decoder function for this TU (only once)
-    if (!injected) {
-      GLOBAL_GENERATED_CPPOBF_DECODE_FUNC_NAME = gen.generate();
-      // ensure <string> is included somewhere before this injected code
-      headerInsert += "static inline const char* " +
-                      GLOBAL_GENERATED_CPPOBF_DECODE_FUNC_NAME +
-                      "(const unsigned char* p, unsigned char b) {"
-                      "  static char a[1<<10];"
-                      "  for (unsigned long i = 0; ; ++i) {"
-                      "    unsigned char c = p[i];"
-                      "    unsigned char d = static_cast<unsigned char>(c ^ b);"
-                      "    a[i] = static_cast<char>(d);"
-                      "    if (c == 0x00) {a[i+1] = '\\0'; break;}"
-                      "  }"
-                      "  return a;"
-                      "}";
 
+    // 用 key 对 bytes 做 XOR 编码并构建数组字面量
+    std::string arr = "static constexpr unsigned char " + var + "[] = {";
+    for (unsigned char c : s) {
+      unsigned char b = static_cast<unsigned char>(c ^ key);
+      char buf[8];
+      snprintf(buf, sizeof(buf), "0x%02x", (unsigned)b);
+      arr += buf;
+      arr += ',';
+    }
+    // 终止符
+    char buf0[8];
+    snprintf(buf0, sizeof(buf0), "0x%02x", (unsigned)(0 ^ key));
+    arr += buf0;
+    arr += "};\n";
+
+    // 延迟注入：把解码器和数组追加到 headerInsert，之后统一插入
+    if (!injected) {
+      decodeFuncName = gen.generate();
+      headerInsert += "static inline const char* ";
+      headerInsert +=
+          decodeFuncName + "(const unsigned char* p, unsigned char b) {";
+      headerInsert +=
+          " static char a[1<<10]; for (unsigned long i=0;;++i){ unsigned char "
+          "c=p[i]; unsigned char d = (unsigned char)(c^b); a[i]= (char)d; if "
+          "(c==0x00){ a[i+1]='\\0'; break;} } return a; }\n";
       injected = true;
     }
-    // append declaration that decodes at runtime by calling decode on a copy
-    // (or in-place) Note: decodes in-place on first use; thread-safety not
-    // ensured
     headerInsert += arr;
-    // store mapping with key appended so decode call can use key; embed key
-    // into name to remember we store name as var + ":" + hex(key) so consumer
-    // can extract key
-    char ks[4];
+
+    char ks[8];
     snprintf(ks, sizeof(ks), "%02x", key);
     std::string stored = var + ":" + std::string(ks);
     strMap[s] = stored;
     return stored;
   }
 
-  // integer obfuscation: store masked const and replace literal with ((TYPE)
-  // (var ^ KEY))
-  std::string makeIntVar(long long v, unsigned bits = 64) {
+  // 整数混淆存储：生成一个静态常量（XOR 掩码）
+  std::string makeIntVar(long long v) {
     auto it = intMap.find(v);
     if (it != intMap.end())
       return it->second;
     std::string var = gen.generate();
+    // 随机生成 64-bit key（低成本）
     uint64_t key = ((uint64_t)chooseKey() << 56) ^
                    ((uint64_t)chooseKey() << 48) ^
                    ((uint64_t)chooseKey() << 40);
     uint64_t encoded = (uint64_t)v ^ key;
-    // create unsigned long long init
     char buf[128];
     snprintf(buf, sizeof(buf),
-             "static constexpr unsigned long long %s = 0x%llxULL;", var.c_str(),
-             (unsigned long long)encoded);
+             "static constexpr unsigned long long %s = 0x%llxULL;\n",
+             var.c_str(), (unsigned long long)encoded);
     headerInsert += buf;
-    // store var:key in mapping as "var:hexkey"
-    char kbuf[128];
+    char kbuf[64];
     snprintf(kbuf, sizeof(kbuf), "%llx", (unsigned long long)key);
     std::string stored = var + ":" + std::string(kbuf);
     intMap[v] = stored;
     return stored;
   }
 
+  // 字符字面量混淆
   std::string makeCharVar(char c) {
     int ci = static_cast<unsigned char>(c);
     auto it = charMap.find(ci);
@@ -214,7 +209,7 @@ struct ObfDataManager {
     uint8_t key = chooseKey();
     unsigned char enc = static_cast<unsigned char>(c ^ key);
     char buf[128];
-    snprintf(buf, sizeof(buf), "static constexpr unsigned char %s = 0x%02x;",
+    snprintf(buf, sizeof(buf), "static constexpr unsigned char %s = 0x%02x;\n",
              var.c_str(), (unsigned)enc);
     headerInsert += buf;
     char kbuf[8];
@@ -224,39 +219,30 @@ struct ObfDataManager {
     return stored;
   }
 
+  // 若 headerInsert 非空，则把其注入到主文件文件头
   void injectHeaderIfNeeded(const FileID &FID) {
     if (headerInsert.empty())
       return;
-    // inject at beginning of main file once per TU
     SourceLocation start = SM.getLocForStartOfFile(FID);
     R.InsertText(start, headerInsert, true, true);
     headerInsert.clear();
   }
+
+  // 公有缓存（供其它模块读取）
+  std::unordered_map<std::string, std::string> strMap;
+  std::unordered_map<long long, std::string> intMap;
+  std::unordered_map<int, std::string> charMap;
+
+private:
+  // Rewriter &R;
+  // NameGenerator &gen;
+  // const SourceManager &SM;
+  bool injected = false;
+  string decodeFuncName;
+  string headerInsert;
 };
 
-static cl::OptionCategory ToolCategory("cppobf options");
-static cl::opt<std::string> PersistMap("persist",
-                                       cl::desc("mapping file (load/save)"),
-                                       cl::value_desc("file"), cl::init(""),
-                                       cl::cat(ToolCategory));
-static cl::opt<bool> Inplace("inplace", cl::desc("write changes in-place"),
-                             cl::init(false), cl::cat(ToolCategory));
-static cl::opt<bool> ProcessMacros("process-macros", cl::desc("process macros"),
-                                   cl::init(false), cl::cat(ToolCategory));
-static cl::opt<bool>
-    AllowExternal("allow-external",
-                  cl::desc("allow renaming external linkage symbols"),
-                  cl::init(false), cl::cat(ToolCategory));
-static cl::opt<unsigned> NameLen("namelen",
-                                 cl::desc("generated name length(fixed)"),
-                                 cl::init(32), cl::cat(ToolCategory));
-static cl::opt<std::string> Prefix("prefix", cl::desc("generated name prefix"),
-                                   cl::init(""), cl::cat(ToolCategory));
-static cl::opt<unsigned>
-    MaxChildrenCount("max-children-count",
-                     cl::desc("max children count in a define expend"),
-                     cl::init(20), cl::cat(ToolCategory));
-
+// -------------------- 映射文件辅助 --------------------
 static bool loadMapping(const std::string &path,
                         std::unordered_map<std::string, std::string> &mapOut) {
   if (path.empty())
@@ -284,88 +270,162 @@ saveMapping(const std::string &path,
   return true;
 }
 
+// -------------------- FullRenamer（AST 访问器） --------------------
 class FullRenamer : public RecursiveASTVisitor<FullRenamer> {
 public:
   FullRenamer(Rewriter &R, NameGenerator &G,
               std::unordered_map<std::string, std::string> &usrMap,
-              const SourceManager &SM, bool allowExternal)
-      : R(R), gen(G), usrToObf(usrMap), SM(SM), allowExternal(allowExternal) {}
+              const SourceManager &SM, const LangOptions &LO,
+              bool allowExternal)
+      : R(R), gen(G), usrToObf(usrMap), SM(SM), LO(LO), allowExternal(allowExternal) {}
 
+  // 一些可复用的检查
+  bool isInMainFile(SourceLocation L) const {
+    if (!L.isValid())
+      return false;
+    return SM.isWrittenInMainFile(SM.getSpellingLoc(L));
+  }
+
+  std::string getDeclUSR(const Decl *D) const {
+    SmallString<128> buf;
+    if (index::generateUSRForDecl(D, buf))
+      return {};
+    return string(buf.begin(), buf.end());
+  }
+
+  // 统一改名入口：在合适的位置创建 mapping 并替换声明处文本
+  void applyRenameIfNeeded(const Decl *D, SourceLocation declLoc) {
+    if (!D || !declLoc.isValid())
+      return;
+    std::string usr = getDeclUSR(D);
+    if (usr.empty())
+      return;
+    // 若已存在映射，不再重复生成
+    if (usrToObf.count(usr)) {
+      // 仍然确保源代码上的声明处被替换（防止某些场景只替换了引用）
+      SourceLocation SL = SM.getSpellingLoc(declLoc);
+      if (SL.isValid() && (isInMainFile(SL) || allowExternal))
+        R.ReplaceText(CharSourceRange::getTokenRange(SL), usrToObf[usr]);
+      return;
+    }
+
+    std::string obf = gen.generate();
+    usrToObf[usr] = obf;
+
+    SourceLocation SL = SM.getSpellingLoc(declLoc);
+    if (!SL.isValid())
+      return;
+    if (!isInMainFile(SL) && !allowExternal)
+      return;
+    R.ReplaceText(CharSourceRange::getTokenRange(SL), obf);
+  }
+
+  // 访问函数/方法
   bool VisitFunctionDecl(FunctionDecl *FD) {
-    if (!FD)
+    if (!FD || FD->isImplicit() || FD->isInvalidDecl())
       return true;
-
-    // skip implicit / invalid
-    if (FD->isImplicit() || FD->isInvalidDecl())
-      return true;
-
-    // must have an identifier
     if (!FD->getIdentifier())
       return true;
+    if (isa<CXXConstructorDecl>(FD) || isa<CXXDestructorDecl>(FD) ||
+        isa<CXXConversionDecl>(FD))
+      return true;
 
-    // Only consider the definition (or getDefinition()).
-    FunctionDecl *Def = nullptr;
-    if (FD->isThisDeclarationADefinition())
-      Def = FD;
-    else
-      Def = FD->getDefinition();
-    // if there's no definition in this TU, skip (e.g. printf)
+    FunctionDecl *Def =
+        FD->isThisDeclarationADefinition() ? FD : FD->getDefinition();
     if (!Def)
       return true;
 
-    // Use Rewriter's SourceManager to inspect the spelling location of the
-    // definition
-    SourceLocation defLoc = Def->getLocation();
-    SourceLocation spellLoc = SM.getSpellingLoc(defLoc);
+    SourceLocation spellLoc = SM.getSpellingLoc(Def->getLocation());
     if (!spellLoc.isValid())
       return true;
-
-    // If definition not in main file and we don't allow external, skip
     if (!SM.isWrittenInMainFile(spellLoc) && !allowExternal)
       return true;
-
-    // If external symbols are not allowed and this has external linkage, skip
     if (!allowExternal && Def->hasExternalFormalLinkage())
       return true;
 
-    // If allowExternal is true we still want to protect main()
-    if (allowExternal) {
-      if (Def->isMain()) {
-        llvm::errs() << "Skipping obfuscation of main()\n";
-        return true;
-      }
-      if (Def->getName() == "main") {
-        llvm::errs() << "Skipping obfuscation of function named 'main'\n";
-        return true;
-      }
-    }
-
-    // skip template instantiations / compiler-generated / builtin ids
     if (Def->isTemplateInstantiation())
       return true;
-    //   if (Def->isBuiltinID()) return true;
 
-    // Now apply rename using the definition's spelling location and the precise
-    // name token range
     applyRenameIfNeeded(Def, spellLoc);
     return true;
   }
 
+  bool VisitCXXConstructorDecl(CXXConstructorDecl *Ctor) {
+    if (!Ctor || Ctor->isImplicit())
+      return true;
+    SourceLocation ctorSpell = SM.getSpellingLoc(Ctor->getLocation());
+    if (!ctorSpell.isValid())
+      return true;
+    if (!SM.isWrittenInMainFile(ctorSpell) && !allowExternal)
+      return true;
+
+    // 用父类映射替换构造函数名（如果映射尚不存在则创建它）
+    if (const CXXRecordDecl *Parent = Ctor->getParent()) {
+      if (!Parent->isImplicit() && Parent->getIdentifier()) {
+        std::string recUSR = getDeclUSR(Parent);
+        if (!recUSR.empty()) {
+          auto it = usrToObf.find(recUSR);
+          if (it == usrToObf.end()) {
+            // 生成并注入 Parent 的映射（如果适用）
+            applyRenameIfNeeded(Parent, Parent->getLocation());
+            it = usrToObf.find(recUSR);
+          }
+          if (it != usrToObf.end()) {
+            R.ReplaceText(CharSourceRange::getTokenRange(ctorSpell),
+                          it->second);
+          }
+        }
+      }
+    }
+
+    // 替换成员初始化器名字（只使用已有映射）
+    for (auto *Init : Ctor->inits()) {
+      if (!Init || !Init->isMemberInitializer())
+        continue;
+      FieldDecl *FD = Init->getMember();
+      if (!FD || FD->isImplicit() || !FD->getIdentifier())
+        continue;
+      SourceLocation nameLoc = Init->getMemberLocation();
+      if (!nameLoc.isValid())
+        nameLoc = Init->getSourceLocation();
+      if (!nameLoc.isValid())
+        continue;
+      nameLoc = SM.getSpellingLoc(nameLoc);
+      if (!nameLoc.isValid())
+        continue;
+      if (!SM.isWrittenInMainFile(nameLoc) && !allowExternal)
+        continue;
+      std::string fldUSR = getDeclUSR(FD);
+      if (fldUSR.empty())
+        continue;
+      auto it = usrToObf.find(fldUSR);
+      if (it == usrToObf.end())
+        continue;
+      R.ReplaceText(CharSourceRange::getTokenRange(nameLoc), it->second);
+    }
+    return true;
+  }
+
   bool VisitCXXRecordDecl(CXXRecordDecl *RD) {
-    if (!RD->getIdentifier())
+    if (!RD || RD->isImplicit() || RD->isAnonymousStructOrUnion() ||
+        !RD->getIdentifier())
       return true;
-    if (!locInMainFile(RD->getLocation()))
+    const TagDecl *Target = RD->getDefinition() ? RD->getDefinition() : RD;
+    SourceLocation nameLoc = Target->getLocation();
+    nameLoc = SM.getSpellingLoc(nameLoc);
+    if (!nameLoc.isValid())
       return true;
-    if (!allowExternal && RD->hasExternalFormalLinkage())
+    // 这里放宽判断：只要名字在主文件或者允许处理外部符号，就创建/替换映射。
+    if (!isInMainFile(nameLoc) && !allowExternal)
       return true;
-    applyRenameIfNeeded(RD, RD->getLocation());
+    applyRenameIfNeeded(Target, nameLoc);
     return true;
   }
 
   bool VisitVarDecl(VarDecl *VD) {
-    if (!VD->getIdentifier())
+    if (!VD || !VD->getIdentifier())
       return true;
-    if (!locInMainFile(VD->getLocation()))
+    if (!isInMainFile(VD->getLocation()))
       return true;
     if (!allowExternal && VD->hasExternalStorage())
       return true;
@@ -374,18 +434,19 @@ public:
   }
 
   bool VisitFieldDecl(FieldDecl *FD) {
-    if (!FD->getIdentifier())
+    if (!FD || FD->isImplicit() || !FD->getIdentifier())
       return true;
-    if (!locInMainFile(FD->getLocation()))
+    SourceLocation loc = SM.getSpellingLoc(FD->getLocation());
+    if (!loc.isValid() || !isInMainFile(loc))
       return true;
-    applyRenameIfNeeded(FD, FD->getLocation());
+    applyRenameIfNeeded(FD, loc);
     return true;
   }
 
   bool VisitEnumDecl(EnumDecl *ED) {
-    if (!ED->getIdentifier())
+    if (!ED || !ED->getIdentifier())
       return true;
-    if (!locInMainFile(ED->getLocation()))
+    if (!isInMainFile(ED->getLocation()))
       return true;
     if (!allowExternal && ED->hasExternalFormalLinkage())
       return true;
@@ -394,9 +455,9 @@ public:
   }
 
   bool VisitTypedefNameDecl(TypedefNameDecl *TD) {
-    if (!TD->getIdentifier())
+    if (!TD || !TD->getIdentifier())
       return true;
-    if (!locInMainFile(TD->getLocation()))
+    if (!isInMainFile(TD->getLocation()))
       return true;
     applyRenameIfNeeded(TD, TD->getLocation());
     return true;
@@ -406,7 +467,7 @@ public:
     ValueDecl *VD = DRE->getDecl();
     if (!VD || !VD->getIdentifier())
       return true;
-    if (!locInMainFile(DRE->getLocation()))
+    if (!isInMainFile(DRE->getLocation()))
       return true;
     std::string usr = getDeclUSR(VD);
     if (usr.empty())
@@ -425,7 +486,7 @@ public:
     ValueDecl *VD = ME->getMemberDecl();
     if (!VD || !VD->getIdentifier())
       return true;
-    if (!locInMainFile(ME->getMemberLoc()))
+    if (!isInMainFile(ME->getMemberLoc()))
       return true;
     std::string usr = getDeclUSR(VD);
     if (usr.empty())
@@ -440,209 +501,205 @@ public:
     return true;
   }
 
-  const std::unordered_map<std::string, std::string> &getMapping() const {
-    return usrToObf;
+  bool VisitTypeLoc(TypeLoc TL) {
+    if (!TL.getBeginLoc().isValid())
+      return true;
+
+    SourceLocation beginSpell = SM.getSpellingLoc(TL.getBeginLoc());
+    if (!beginSpell.isValid())
+      return true;
+    if (!isInMainFile(beginSpell) && !allowExternal)
+      return true;
+
+    auto isWritableLoc = [&](SourceLocation Loc) -> bool {
+      if (!Loc.isValid())
+        return false;
+      Loc = SM.getFileLoc(Loc); // 归一为文件位置
+      if (!Loc.isValid())
+        return false;
+      if (Loc.isMacroID())
+        return false; // 跳过宏位置
+      if (!isInMainFile(Loc) && !allowExternal)
+        return false;
+      return !SM.getFileID(Loc).isInvalid();
+    };
+
+    auto safeReplaceToken = [&](SourceLocation Loc, llvm::StringRef NewText) {
+      if (!isWritableLoc(Loc))
+        return;
+      Loc = SM.getFileLoc(Loc);
+
+      CharSourceRange TR = CharSourceRange::getTokenRange(Loc);
+      llvm::StringRef Old =
+          clang::Lexer::getSourceText(TR, SM, /*LangOpts*/ LO);
+      if (Old.empty())
+        return;
+      auto isIdent = [](llvm::StringRef S) {
+        if (S.empty()) return false;
+        if (!clang::isIdentifierHead(S.front(), /*LangOpts*/ true)) return false;
+        for (char c : S.drop_front())
+          if (!clang::isIdentifierBody(c, /*LangOpts*/ true)) return false;
+        return true;
+      };
+
+      if (!isIdent(Old))
+        return; // 只改标识符，避免误伤符号
+
+      R.ReplaceText(TR, NewText);
+    };
+
+    // 处理 tag 类型（struct/class/union/enum）
+    if (TagTypeLoc tagTL = TL.getAs<TagTypeLoc>()) {
+      if (const TagDecl *TD = tagTL.getDecl()) {
+        if (!TD->isImplicit() && TD->getIdentifier()) {
+          std::string usr = getDeclUSR(TD);
+          if (!usr.empty()) {
+            auto it = usrToObf.find(usr);
+            if (it == usrToObf.end()) {
+              // 若无映射则在声明处创建（受 allowExternal 控制）
+              applyRenameIfNeeded(TD, TD->getLocation());
+              it = usrToObf.find(usr);
+            }
+            if (it != usrToObf.end()) {
+              // TagTypeLoc
+              SourceLocation nameLoc = tagTL.getNameLoc();
+              if (!nameLoc.isValid()) nameLoc = TL.getBeginLoc();
+              nameLoc = SM.getSpellingLoc(nameLoc);
+              safeReplaceToken(nameLoc, it->second);
+            }
+          }
+        }
+      }
+    }
+
+    // 处理 typedef / alias 引用（只改该引用处的名字）
+    if (TypedefTypeLoc tdTL = TL.getAs<TypedefTypeLoc>()) {
+      if (TypedefNameDecl *TND = tdTL.getTypedefNameDecl()) {
+        if (!TND->isImplicit() && TND->getIdentifier()) {
+          std::string usr = getDeclUSR(TND);
+          if (!usr.empty()) {
+            auto it = usrToObf.find(usr);
+            if (it == usrToObf.end()) {
+              applyRenameIfNeeded(TND, TND->getLocation());
+              it = usrToObf.find(usr);
+            }
+            if (it != usrToObf.end()) {
+              SourceLocation nameLoc = tdTL.getNameLoc();
+              if (!nameLoc.isValid())
+                nameLoc = TL.getBeginLoc();
+              nameLoc = SM.getSpellingLoc(nameLoc);
+              safeReplaceToken(nameLoc, it->second);
+            }
+          }
+        }
+      }
+    }
+
+    return true;
   }
 
-  // 新增：字符串字面量
+  // 字符串 / 字符 / 整数 处理 -- 委托给 obfMgr
   bool VisitStringLiteral(clang::StringLiteral *SLit) {
-    if (!SLit)
+    if (!SLit || !isInMainFile(SLit->getBeginLoc()) || !obfMgr)
       return true;
-    SourceLocation L = SLit->getBeginLoc();
-    if (!L.isValid())
-      return true;
-    if (!locInMainFile(L))
-      return true;
-    // 安全性检查：避免在 unevaluated context / template non-type param / array
-    // size etc.
     if (SLit->isWide())
-      return true; // skip wide/unicode for simplicity
-    std::string s = SLit->getString().str();
-    // get variable (format "var:kk")
-    std::string stored = obfMgr->makeStrVar(s);
-    // parse stored into var and key
+      return true; // skip wide
+    string s = SLit->getString().str();
+    string stored = obfMgr->makeStrVar(s);
     auto pos = stored.find(':');
-    std::string var = stored.substr(0, pos);
-    std::string keyhex = stored.substr(pos + 1);
-    // we replaced by call to decode function: __cppobf_decode_ptr(var, 0xKK)
-    char repl[256];
+    string var = stored.substr(0, pos);
+    string keyhex = stored.substr(pos + 1);
+    char repl[512];
     snprintf(repl, sizeof(repl),
              "(reinterpret_cast<const char*>(%s(%s, 0x%s)))",
-             GLOBAL_GENERATED_CPPOBF_DECODE_FUNC_NAME.c_str(), var.c_str(),
-             keyhex.c_str());
-    R.ReplaceText(CharSourceRange::getTokenRange(L), repl);
+             obfMgrDecodeName().c_str(), var.c_str(), keyhex.c_str());
+    R.ReplaceText(CharSourceRange::getTokenRange(SLit->getBeginLoc()), repl);
     return true;
   }
 
   bool VisitCharacterLiteral(CharacterLiteral *CL) {
-    if (!CL)
+    if (!CL || !isInMainFile(CL->getLocation()) || !obfMgr)
       return true;
-    SourceLocation L = CL->getLocation();
-    if (!L.isValid())
-      return true;
-    if (!locInMainFile(L))
-      return true;
-    // get char value (note: may be multi-byte in some contexts; handle basic)
     unsigned val = CL->getValue();
     char ch = static_cast<char>(val & 0xFF);
-    std::string stored = obfMgr->makeCharVar(ch);
+    string stored = obfMgr->makeCharVar(ch);
     auto pos = stored.find(':');
-    std::string var = stored.substr(0, pos);
-    std::string keyhex = stored.substr(pos + 1);
+    string var = stored.substr(0, pos);
+    string keyhex = stored.substr(pos + 1);
     char repl[128];
-    // decode inline: (char)(( (unsigned char)var ^ 0xKK) ) but var holds
-    // encoded byte we generated unsigned char var = 0xXX (encoded), and we have
-    // key so write: (char)((unsigned char)(var) ^ 0xKK)
     snprintf(repl, sizeof(repl), "((char)((unsigned char)(%s) ^ 0x%s))",
              var.c_str(), keyhex.c_str());
-    R.ReplaceText(CharSourceRange::getTokenRange(L), repl);
+    R.ReplaceText(CharSourceRange::getTokenRange(CL->getLocation()), repl);
     return true;
   }
-  // 辅助：判断表达式是否在“危险的编译期常量上下文”
-  static bool isInConstantContext(const clang::Expr *E,
-                                  clang::ASTContext &Ctx) {
-    auto parents =
-        Ctx.getParents(clang::ast_type_traits::DynTypedNode::create(*E));
-    if (parents.empty())
-      return false;
-    for (const auto &P : parents) {
-      if (P.get<clang::TemplateArgument>())
+
+  bool VisitIntegerLiteral(IntegerLiteral *IL) {
+    if (!IL || !isInMainFile(IL->getLocation()) || !obfMgr || !Ctx)
+      return true;
+    // 保守地跳过 enum / non-type template 参数 / case label
+    auto parents = Ctx->getParents(ast_type_traits::DynTypedNode::create(*IL));
+    for (auto &P : parents) {
+      if (P.get<EnumConstantDecl>() || P.get<NonTypeTemplateParmDecl>() ||
+          P.get<CaseStmt>())
         return true;
-      if (const clang::Expr *PE = P.get<clang::Expr>()) {
-        if (llvm::isa<clang::IntegerLiteral>(PE) ||
-            llvm::isa<clang::FloatingLiteral>(PE) ||
-            llvm::isa<clang::CXXBoolLiteralExpr>(PE))
-          return true;
-        if (isInConstantContext(PE, Ctx))
-          return true;
-      }
-      if (const clang::Decl *PD = P.get<clang::Decl>()) {
-        if (llvm::isa<clang::EnumConstantDecl>(PD))
-          return true;
-        if (llvm::isa<clang::NonTypeTemplateParmDecl>(PD))
-          return true;
-      }
-      if (const clang::Stmt *PS = P.get<clang::Stmt>()) {
-        if (llvm::isa<clang::CaseStmt>(PS) || llvm::isa<clang::SwitchStmt>(PS))
-          return true;
-      }
     }
-    return false;
-  }
-
-  bool VisitIntegerLiteral(clang::IntegerLiteral *IL) {
-    if (!IL)
-      return true;
-
-    clang::SourceLocation L = IL->getLocation();
-    if (!L.isValid() || !locInMainFile(L))
-      return true;
-
-    if (!Ctx || !obfMgr)
-      return true; // 防御性检查
-
-    // 父节点检查：跳过编译期常量上下文
-    auto parents =
-        Ctx->getParents(clang::ast_type_traits::DynTypedNode::create(*IL));
-    for (const auto &P : parents) {
-      if (P.get<clang::EnumConstantDecl>() ||
-          P.get<clang::NonTypeTemplateParmDecl>() || P.get<clang::CaseStmt>()) {
-        return true; // 保守跳过
-      }
-    }
-
-    llvm::APInt api = IL->getValue();
+    APInt api = IL->getValue();
     if (api.getBitWidth() > 63)
-      return true; // 太大，跳过
-
+      return true;
     long long v = api.getSExtValue();
 
-    // 转成十六进制字符串，保证 0x 后面有内容
-    std::string hexVal = api.toString(16, false);
-
-    // 生成混淆变量
-    std::string stored = obfMgr->makeIntVar(v);
+    string stored = obfMgr->makeIntVar(v);
     auto pos = stored.find(':');
-    std::string var = stored.substr(0, pos);
-    std::string keyhex = stored.substr(pos + 1);
-
-    // 用原始类型字符串替换更安全
-    std::string typeStr = IL->getType().getAsString();
-
+    string var = stored.substr(0, pos);
+    string keyhex = stored.substr(pos + 1);
+    string typeStr = IL->getType().getAsString();
     char repl[256];
     snprintf(repl, sizeof(repl), "((%s)(((unsigned long long)%s) ^ 0x%sULL))",
              typeStr.c_str(), var.c_str(), keyhex.c_str());
-
-    R.ReplaceText(clang::CharSourceRange::getTokenRange(L), repl);
-
-    // 在头部插入完整的静态变量定义（如果需要）
-    // obfMgr->injectStaticVar(var, hexVal);
-
+    R.ReplaceText(CharSourceRange::getTokenRange(IL->getLocation()), repl);
     return true;
   }
 
-private:
-  bool locInMainFile(SourceLocation L) const {
-    if (!L.isValid())
-      return false;
-    return SM.isWrittenInMainFile(SM.getSpellingLoc(L));
-  }
+  // 获取 decode 函数名字（从 obfMgr 的 headerInsert 中生成的名称）
+  std::string obfMgrDecodeName() const { return "__cppobf_decode"; }
 
-  std::string getDeclUSR(const Decl *D) const {
-    llvm::SmallString<128> buf;
-    if (index::generateUSRForDecl(D, buf))
-      return std::string();
-    return std::string(buf.begin(), buf.end());
-  }
-
-  void applyRenameIfNeeded(const Decl *D, SourceLocation declLoc) {
-    if (!declLoc.isValid())
-      return;
-    std::string usr = getDeclUSR(D);
-    if (usr.empty())
-      return;
-    if (usrToObf.count(usr))
-      return;
-    std::string obf = gen.generate();
-    usrToObf[usr] = obf;
-    SourceLocation SL = SM.getSpellingLoc(declLoc);
-    if (!SL.isValid())
-      return;
-    R.ReplaceText(CharSourceRange::getTokenRange(SL), obf);
-  }
-
+public:
   Rewriter &R;
   NameGenerator &gen;
   std::unordered_map<std::string, std::string> &usrToObf;
   const SourceManager &SM;
   bool allowExternal;
+  const LangOptions &LO;
 
-public:
-  ObfDataManager *obfMgr = nullptr; // 指向外部创建的 manager
-  clang::ASTContext *Ctx = nullptr;
+  // 外部注入点
+  ObfDataManager *obfMgr = nullptr;
+  ASTContext *Ctx = nullptr;
 };
 
+// -------------------- RenamerConsumer --------------------
 class RenamerConsumer : public ASTConsumer {
 public:
   RenamerConsumer(Rewriter &R, NameGenerator &G,
                   std::unordered_map<std::string, std::string> &usrMap,
-                  const SourceManager &SM, bool allowExternal)
-      : obfManager(R, G, SM), renamer(R, G, usrMap, SM, allowExternal) {
-    renamer.obfMgr = &obfManager; // 关键：把指针传给 renamer
+                  const SourceManager &SM, const LangOptions &LO,
+                  bool allowExternal)
+      : obfManager(R, G, SM), renamer(R, G, usrMap, SM, LO, allowExternal) {
+    renamer.obfMgr = &obfManager;
   }
 
   void HandleTranslationUnit(ASTContext &Context) override {
-    renamer.Ctx = &Context; // 同时把 ASTContext 传进去
+    renamer.Ctx = &Context;
     renamer.TraverseDecl(Context.getTranslationUnitDecl());
     FileID fid = Context.getSourceManager().getMainFileID();
     obfManager.injectHeaderIfNeeded(fid);
   }
 
-  FullRenamer renamer;
+private:
   ObfDataManager obfManager;
+  FullRenamer renamer;
 };
 
-std::string FINAL_OBF_RESULT;
+// -------------------- FrontendAction / Factory --------------------
 class ObfuscateAction : public ASTFrontendAction {
 public:
   ObfuscateAction(NameGenerator &G,
@@ -655,13 +712,9 @@ public:
   std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI,
                                                  StringRef file) override {
     rewriter_.setSourceMgr(CI.getSourceManager(), CI.getLangOpts());
-    if (processMacros) {
-      //   CI.getPreprocessor().addPPCallbacks(std::make_unique<MacroRenamer>(
-      //       rewriter_, gen, macroMap, CI.getSourceManager(),
-      //       CI.getLangOpts(), processMacros));
-    }
-    return std::make_unique<RenamerConsumer>(
-        rewriter_, gen, usrMap, CI.getSourceManager(), allowExternal);
+    return std::make_unique<RenamerConsumer>(rewriter_, gen, usrMap,
+                                             CI.getSourceManager(),
+                                             CI.getLangOpts(), allowExternal);
   }
 
   void EndSourceFileAction() override {
@@ -669,8 +722,7 @@ public:
     std::string out;
     llvm::raw_string_ostream os(out);
     rewriter_.getEditBuffer(ID).write(os);
-
-    FINAL_OBF_RESULT = os.str();
+    finalResult = os.str();
     llvm::outs() << "Wrote obfuscated source to OBF_raw.cpp\n";
   }
 
@@ -681,7 +733,11 @@ private:
   std::unordered_map<std::string, std::string> &macroMap;
   bool processMacros;
   bool allowExternal;
+
+public:
+  static std::string finalResult;
 };
+std::string ObfuscateAction::finalResult;
 
 class ObfuscateActionFactory : public FrontendActionFactory {
 public:
@@ -705,52 +761,27 @@ private:
   bool allowExternal;
 };
 
+// -------------------- Define_Obfuscation (tokenization + tree builder)
+// --------------------
 namespace Define_Obfuscation {
-/*
-Modular obfuscator with single entry:
-string obf(const string &input)
-
-Behavior:
-- Collects and moves all leading preprocessor lines (line-start '#') to the top.
-- Tokenizes the body using a state machine: preserves strings, chars, comments,
-NL.
-- Removes ordinary spaces but inserts explicit space tokens where necessary
-(ident/num adjacency).
-- Splits tokens into segments and generates nested #define macros per segment.
-- Returns the complete obfuscated source text as a single string.
-
-Notes:
-- Configuration constants (SEG_SIZE, CHUNK_SIZE, PREFIX) are local and can be
-adjusted.
-- This function returns only the obfuscated .c/.cpp content; if you want JSON
-mapping or per-segment files, the code can be extended.
-*/
-// obfuscate_mod_define_top.cpp
-// Requires C++17
 using std::pair;
-using std::string;
-using std::unordered_set;
 using std::vector;
+using Edge = std::pair<string, std::vector<string>>;
 
+// 把源码拆成 token 与预处理指令
 pair<vector<string>, vector<string>>
 splitCppTokensWithDirectives(const string &s) {
-  static const unordered_set<string> two = {
-      "==", "!=", "<=", ">=", "&&", "||", "++", "--", "+=", "-=", "*=",
+  static const std::unordered_set<string> two = {
+      "==", "!=", "<=", "=>", "&&", "||", "++", "--", "+=", "-=", "*=",
       "/=", "%=", "&=", "|=", "^=", "<<", ">>", "->", "::", ".*", "->*"};
-  static const unordered_set<char> one = {
-      '+', '-', '*', '/', '%', '&', '|', '^', '~', '!', '=', '<', '>',
-      '(', ')', '[', ']', '{', '}', ',', ';', '.', ';', ':', '?'};
+  static const std::unordered_set<char> one = {
+      '+', '-', '*', '/', '%', '&', '|', '^', '~', '!', '=', '<',
+      '>', '(', ')', '[', ']', '{', '}', ',', ';', '.', ':', '?'};
 
   vector<string> tokens;
+  tokens.reserve(1024);
   vector<string> directives;
   string cur;
-  auto flush = [&]() {
-    if (!cur.empty()) {
-      tokens.push_back(cur);
-      cur.clear();
-    }
-  };
-
   enum State {
     Normal,
     InStr,
@@ -761,62 +792,50 @@ splitCppTokensWithDirectives(const string &s) {
   } st = Normal;
   for (size_t i = 0; i < s.size(); ++i) {
     char c = s[i];
-
-    // 状态：字符串字面量
     if (st == InStr) {
       cur.push_back(c);
       if (c == '"' && s[i - 1] != '\\') {
+        tokens.push_back(cur);
+        cur.clear();
         st = Normal;
-        flush();
       }
       continue;
     }
-    // 状态：字符字面量
     if (st == InChar) {
       cur.push_back(c);
       if (c == '\'' && s[i - 1] != '\\') {
+        tokens.push_back(cur);
+        cur.clear();
         st = Normal;
-        flush();
       }
       continue;
     }
-    // 状态：行注释
     if (st == LineCmt) {
       if (c == '\n')
         st = Normal;
       continue;
     }
-    // 状态：块注释
     if (st == BlockCmt) {
       if (c == '*' && i + 1 < s.size() && s[i + 1] == '/') {
-        st = Normal;
         ++i;
+        st = Normal;
       }
       continue;
     }
-    // 状态：预处理指令，收集整行（含换行之前所有字符）
-    if (st == InDirective) {
-      // 收集直到未被反斜线续行或者行尾
+    if (st == InDirective) { // 收集整行，允许续行
       size_t start = i;
       bool cont = false;
       for (; i < s.size(); ++i) {
-        if (s[i] == '\\') {
-          // 如果是行续行，跳过下一字符并继续
-          if (i + 1 < s.size() && s[i + 1] == '\n') {
-            cont = true;
-            ++i;
-            continue;
-          }
-          if (i + 1 == s.size())
-            break;
+        if (s[i] == '\\' && i + 1 < s.size() && s[i + 1] == '\n') {
+          ++i;
+          cont = true;
+          continue;
         }
         if (s[i] == '\n')
           break;
       }
       size_t end = (i < s.size() ? i : s.size() - 1);
-      // 包含起始 '#' 前的任何前导空白
       string dir = s.substr(start, end - start + 1);
-      // 去除末尾的换行（保留行内内容）
       if (!dir.empty() && dir.back() == '\n')
         dir.pop_back();
       directives.push_back(dir);
@@ -824,16 +843,13 @@ splitCppTokensWithDirectives(const string &s) {
       continue;
     }
 
-    // Normal 状态处理
-    // 识别进入字符串/字符/注释
+    // Normal
     if (c == '"') {
-      flush();
       cur.push_back(c);
       st = InStr;
       continue;
     }
     if (c == '\'') {
-      flush();
       cur.push_back(c);
       st = InChar;
       continue;
@@ -849,9 +865,8 @@ splitCppTokensWithDirectives(const string &s) {
       continue;
     }
 
-    // 识别预处理指令：行首（允许前导空白）遇到 '#'
+    // 预处理指令判断：行首的 '#'
     if (c == '#') {
-      // 确保这是行首（前面只有空白或在字符串开始）
       bool onlySpaceBefore = true;
       if (i > 0) {
         size_t j = i;
@@ -860,84 +875,75 @@ splitCppTokensWithDirectives(const string &s) {
           char p = s[j];
           if (p == '\n')
             break;
-          if (!std::isspace(static_cast<unsigned char>(p))) {
+          if (!std::isspace((unsigned char)p)) {
             onlySpaceBefore = false;
             break;
           }
         }
       }
       if (onlySpaceBefore) {
-        flush();
-        // 把当前 '#' 的位置传给 InDirective 处理（它期望 i 为起点）
+        if (!cur.empty()) {
+          tokens.push_back(cur);
+          cur.clear();
+        }
         st = InDirective;
-        // 将循环索引回退一个位置，因为 InDirective 分支从 i 开始读取
-        // 实际上当前循环会执行 ++i, 所以需要 --i 保持位置不变，下一轮进入
-        // InDirective
         --i;
         continue;
       }
     }
-
-    if (std::isspace(static_cast<unsigned char>(c))) {
-      flush();
+    if (std::isspace((unsigned char)c)) {
+      if (!cur.empty()) {
+        tokens.push_back(cur);
+        cur.clear();
+      }
       continue;
     }
-
-    // 尝试两字符运算符（最长优先）
     if (i + 1 < s.size()) {
       string t;
-      t.reserve(2);
       t.push_back(c);
       t.push_back(s[i + 1]);
       if (two.find(t) != two.end()) {
-        flush();
+        if (!cur.empty()) {
+          tokens.push_back(cur);
+          cur.clear();
+        }
         tokens.push_back(t);
         ++i;
         continue;
       }
     }
-    // 单字符运算符
     if (one.find(c) != one.end()) {
-      flush();
+      if (!cur.empty()) {
+        tokens.push_back(cur);
+        cur.clear();
+      }
       tokens.emplace_back(1, c);
       continue;
     }
-
-    // 一般标识符/数字/其他字符
     cur.push_back(c);
   }
-  flush();
+  if (!cur.empty())
+    tokens.push_back(cur);
   return {tokens, directives};
 }
 
-// 返回：edges（parent->children 列表，按创建顺序），以及 root 名称，
-// 同时也返回叶子名列表以便打印 leaf_val 行（叶子名与 leaves 索引对应）
-pair<pair<vector<pair<string, vector<string>>>, string>, vector<string>>
+// 构建 k-ary 树（叶子用 gen 包装）
+pair<pair<vector<Edge>, string>, vector<string>>
 build_k_ary_tree_with_wrapped_leaves(const vector<string> &leaves,
                                      NameGenerator &gen, int K) {
   if (K <= 0)
-    throw std::invalid_argument("K must be >= 1");
-
-  int n = static_cast<int>(leaves.size());
-  vector<pair<string, vector<string>>> edges;
+    throw std::invalid_argument("K must > 0");
+  int n = (int)leaves.size();
+  vector<Edge> edges;
   vector<string> leaf_names;
   leaf_names.reserve(n);
-
-  // 1) 为每个叶子生成一个 gen 名称（包装层）
-  for (int i = 0; i < n; ++i) {
+  for (int i = 0; i < n; ++i)
     leaf_names.push_back(gen.generate());
-  }
-
-  // 2) 当前层名列表初始化为叶子名（按输入顺序）
   vector<string> cur = leaf_names;
-
-  // 如果没有叶子，生成单个 root 名称并返回
   if (cur.empty()) {
     string lone = gen.generate();
     return {{edges, lone}, leaf_names};
   }
-
-  // 3) 非递归向上分组构造，每组最多 K 个孩子
   while (cur.size() > 1) {
     vector<string> next;
     next.reserve((cur.size() + K - 1) / K);
@@ -945,78 +951,88 @@ build_k_ary_tree_with_wrapped_leaves(const vector<string> &leaves,
       size_t end = std::min(cur.size(), i + K);
       string parent = gen.generate();
       vector<string> children;
-      children.reserve(end - i);
       for (size_t j = i; j < end; ++j)
         children.push_back(cur[j]);
-      edges.emplace_back(parent, std::move(children));
+      edges.emplace_back(parent, children);
       next.push_back(parent);
     }
     cur.swap(next);
   }
-
-  // cur[0] 即为根名
   string root = cur.front();
   return {{edges, root}, leaf_names};
 }
 
-// ----------------- print_structure_wrapped (重写，新增 ofstream& outfs)
-// -----------------
-void print_structure_wrapped(const vector<pair<string, vector<string>>> &edges,
-                             const string &root,
+void print_structure_wrapped(const vector<Edge> &edges, const string &root,
                              const vector<string> &leaf_names,
                              const vector<string> &leaves,
                              std::ofstream &outfs) {
-  // 叶子行：GEN_LEAF_NAME leaf_val
-  vector<size_t> arr(leaf_names.size());
-  std::iota(arr.begin(), arr.end(), 0);
-  std::mt19937_64 rng(time(nullptr));
-  std::shuffle(arr.begin(), arr.end(), rng);
+  // 叶子行顺序打乱
+  std::vector<size_t> idx(leaf_names.size());
+  std::iota(idx.begin(), idx.end(), 0);
+  std::mt19937_64 rng((uint64_t)time(nullptr));
+  std::shuffle(idx.begin(), idx.end(), rng);
   for (size_t i = 0; i < leaf_names.size(); ++i) {
-    outfs << "#define " << leaf_names[arr[i]] << ' ' << leaves[arr[i]] << '\n';
+    outfs << "#define " << leaf_names[idx[i]] << ' ' << leaves[idx[i]] << '\n';
   }
-  // parent -> children 行（按创建顺序）
-  for (const auto &e : edges) {
+  for (auto &e : edges) {
     outfs << "#define " << e.first;
-    for (const auto &c : e.second)
+    for (auto &c : e.second)
       outfs << ' ' << c;
     outfs << '\n';
   }
-  // 最后一行：root followed by its immediate children if available
+  // 最后一行输出 root 及其 children，并打印 root 行
   const vector<string> *root_children = nullptr;
-  for (const auto &e : edges) {
+  for (auto &e : edges)
     if (e.first == root) {
       root_children = &e.second;
       break;
     }
-  }
-  if (!root_children) {
+  if (!root_children)
     outfs << "#define " << root << '\n';
-  } else {
+  else {
     outfs << "#define " << root;
-    for (const auto &c : *root_children)
+    for (auto &c : *root_children)
       outfs << ' ' << c;
-    outfs << '\n';
-    outfs << root << '\n';
+    outfs << '\n' << root << '\n';
   }
 }
 
-// ----------------- process 总函数 -----------------
 void obf(const string &src, std::ofstream &outfs, NameGenerator &gen, int K) {
-  // 1) 拆分（这里把拆分结果作为叶子值的简化示例）
-  auto [tokens, def] = splitCppTokensWithDirectives(src);
-  for (const auto &s : def)
-    outfs << s << '\n';
-  // 如果你希望把整行/语句作为叶子，请先把 src 分割成行或逻辑单元；此处示例用
-  // tokens 作为叶子值 2) 构造树（叶子先用 gen 包装）
+  auto [tokens, directives] = splitCppTokensWithDirectives(src);
+  for (auto &d : directives)
+    outfs << d << '\n';
   auto built = build_k_ary_tree_with_wrapped_leaves(tokens, gen, K);
   const auto &edges = built.first.first;
   const auto &root = built.first.second;
   const auto &leaf_names = built.second;
-  // 3) 打印到 outfs
   print_structure_wrapped(edges, root, leaf_names, tokens, outfs);
 }
 
 } // namespace Define_Obfuscation
+
+// -------------------- main --------------------
+static cl::OptionCategory ToolCategory("cppobf options");
+static cl::opt<std::string> PersistMap("persist",
+                                       cl::desc("mapping file (load/save)"),
+                                       cl::value_desc("file"), cl::init(""),
+                                       cl::cat(ToolCategory));
+static cl::opt<bool> Inplace("inplace", cl::desc("write changes in-place"),
+                             cl::init(false), cl::cat(ToolCategory));
+static cl::opt<bool> ProcessMacros("process-macros", cl::desc("process macros"),
+                                   cl::init(false), cl::cat(ToolCategory));
+static cl::opt<bool>
+    AllowExternal("allow-external",
+                  cl::desc("allow renaming external linkage symbols"),
+                  cl::init(false), cl::cat(ToolCategory));
+static cl::opt<unsigned> NameLen("namelen",
+                                 cl::desc("generated name length(fixed)"),
+                                 cl::init(32), cl::cat(ToolCategory));
+static cl::opt<std::string> Prefix("prefix", cl::desc("generated name prefix"),
+                                   cl::init(""), cl::cat(ToolCategory));
+static cl::opt<unsigned>
+    MaxChildrenCount("max-children-count",
+                     cl::desc("max children count in a define expend"),
+                     cl::init(20), cl::cat(ToolCategory));
 
 int main(int argc, const char **argv) {
   std::string ErrorMessage;
@@ -1026,16 +1042,14 @@ int main(int argc, const char **argv) {
     llvm::errs() << "Build dir not found, using default . -std=c++14\n";
     Compilations.reset(new FixedCompilationDatabase(".", {"-std=c++14"}));
   }
-
   auto ExpectedParser = CommonOptionsParser::create(
       argc, argv, ToolCategory, cl::NumOccurrencesFlag::ZeroOrMore,
       "cppobf [options] -- <source-files>");
   if (!ExpectedParser) {
-    llvm::errs() << toString(ExpectedParser.takeError()) << "\n";
+    llvm::errs() << toString(ExpectedParser.takeError()) << '\n';
     return 1;
   }
   CommonOptionsParser &OptionsParser = *ExpectedParser;
-
   ClangTool Tool(Compilations ? *Compilations : OptionsParser.getCompilations(),
                  OptionsParser.getSourcePathList());
 
@@ -1053,7 +1067,7 @@ int main(int argc, const char **argv) {
       gen, usrToObf, macroMap, ProcessMacros, AllowExternal);
   int result = Tool.run(Factory.get());
   if (result != 0)
-    llvm::errs() << "Tool.run failed: " << result << "\n";
+    llvm::errs() << "Tool.run failed: " << result << '\n';
 
   if (!PersistMap.empty()) {
     if (!saveMapping(PersistMap, usrToObf))
@@ -1063,27 +1077,28 @@ int main(int argc, const char **argv) {
       llvm::outs() << "Saved mapping to " << PersistMap << "\n";
   }
 
+  // 输出并利用 Define_Obfuscation 生成最终 OBF.cpp / OBF.map
   {
     std::ofstream obfOutRaw("OBF_raw.cpp");
-    obfOutRaw << FINAL_OBF_RESULT;
+    obfOutRaw << ObfuscateAction::finalResult;
     std::ofstream obfOut("OBF.cpp");
-    Define_Obfuscation::obf(FINAL_OBF_RESULT, obfOut, gen, MaxChildrenCount);
+    Define_Obfuscation::obf(ObfuscateAction::finalResult, obfOut, gen,
+                            MaxChildrenCount);
     std::ofstream mapOut("OBF.map");
     if (!mapOut) {
       llvm::errs() << "Failed to open OBF.map for writing\n";
     } else {
       mapOut << "==== USR -> obf mapping ====\n";
-      for (auto &p : usrToObf) {
+      for (auto &p : usrToObf)
         mapOut << p.first << " -> " << p.second << "\n";
-      }
       if (!macroMap.empty()) {
         mapOut << "==== macro -> obf mapping ====\n";
-        for (auto &p : macroMap) {
+        for (auto &p : macroMap)
           mapOut << p.first << " -> " << p.second << "\n";
-        }
       }
       mapOut.close();
-      llvm::outs() << "Saved define OBFed src to OBF.cpp\nSaved mapping to OBF.map\n";
+      llvm::outs()
+          << "Saved define OBFed src to OBF.cpp\nSaved mapping to OBF.map\n";
     }
   }
   return 0;
