@@ -88,7 +88,12 @@ public:
     size_t MinLen = 12, MaxLen = 20;
     uint64_t Seed = 0;
 
-    unsigned RenamedDecls = 0, FrozenNames = 0;
+    // -reserve=Name：保留该名字不做重命名；
+    // -reserve=Class::*：只保留 Class 的 public 方法名（类名本身也保留
+    // 时写 -reserve=Class 即可——保留类名自动延申保留其全部 public 方法）
+    std::vector<std::string> Reserve;
+
+    unsigned RenamedDecls = 0, FrozenNames = 0, ReservedNames = 0;
 
     const char *name() const override { return "rename"; }
 
@@ -106,6 +111,31 @@ public:
         setCollecting(true);
         RenamerVisitor collector(*this, true);
         collector.TraverseDecl(Ctx.getTranslationUnitDecl());
+
+        // reserve：从待重命名集合中剔除保留名；保留的类名（或显式
+        // Class::*)延申保留其全部 public 方法的名字
+        {
+            std::set<std::string> keepPlain, keepClassOnly;
+            for (const std::string &pat : Reserve) {
+                if (pat.size() > 3 &&
+                    pat.compare(pat.size() - 3, 3, "::*") == 0)
+                    keepClassOnly.insert(pat.substr(0, pat.size() - 3));
+                else if (!pat.empty())
+                    keepPlain.insert(pat);
+            }
+            for (const auto &kv : Records_) {
+                if (!keepPlain.count(kv.first) && !keepClassOnly.count(kv.first))
+                    continue;
+                for (const CXXRecordDecl *RD : kv.second)
+                    for (const CXXMethodDecl *M : RD->methods())
+                        if (M->getAccess() == AS_public)
+                            if (const IdentifierInfo *ii =
+                                    M->getDeclName().getAsIdentifierInfo())
+                                keepPlain.insert(ii->getName().str());
+            }
+            for (const std::string &r : keepPlain) Names_.erase(r);
+            ReservedNames = (unsigned)keepPlain.size();
+        }
 
         // 名字分配
         NameGenerator gen(Compress, MinLen, MaxLen, Seed, Forbidden_);
@@ -209,6 +239,8 @@ public:
     std::set<std::string> Forbidden_;
     std::map<std::string, std::string> Map_;
     std::set<clang::SourceLocation> Done_;
+    // 主文件中的类定义（reserve 延申用）
+    std::map<std::string, std::vector<clang::CXXRecordDecl *>> Records_;
     bool CollectMode = false;
 };
 
@@ -288,6 +320,10 @@ bool RenamerVisitor::VisitNamedDecl(NamedDecl *D) {
             if (FD->isMain() || FD->isExternC()) return true;
         if (const auto *VD = dyn_cast<VarDecl>(D))
             if (VD->isExternC()) return true;
+        if (const auto *RD = dyn_cast<CXXRecordDecl>(D))
+            if (RD->isThisDeclarationADefinition() && !RD->isImplicit())
+                P.Records_[name.str()].push_back(
+                    const_cast<CXXRecordDecl *>(RD));
         P.addName(name);
         return true;
     }

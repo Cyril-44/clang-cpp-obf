@@ -45,6 +45,7 @@ cmake --build build -j
 | `-flatten` | 控制流扁平化（函数体 → 状态机分派循环） |
 | `-opaque` | 插入混淆逻辑：常量 XOR 分解 + 不透明谓词垃圾块 |
 | `-rt` | 常量/字符串**运行时**混淆：密文静态存储、运行期解密（防常量折叠，二进制无明文） |
+| `-reserve=N` | 保留名（可重复/逗号分隔）：`-reserve=Mint` 保留该名字；`-reserve=MaxFlow` 保留类名并延申保留其全部 public 方法名；`-reserve=MaxFlow::*` 仅延申保留 public 方法名 |
 
 ## 架构
 
@@ -128,6 +129,21 @@ constexpr/const 声明与 constexpr 函数体等位置——这些位置自动�
   委托初始化、成员初始化列表）/指定初始化器/lambda 捕获/`sizeof...(pack)`/
   命名空间限定符等；跳过 `main`、运算符函数、extern "C"。
 
+### 保留名（-reserve）
+
+需要与外部交互的接口（库类、全局配置等）可以豁免重命名：
+
+```bash
+cppobf ModInt.cpp -reserve=Mint ...                # 保留 Mint（类/别名/函数/变量名）
+cppobf MaxFlow.cpp -reserve=MaxFlow ...            # 保留类名 + 其全部 public 方法名
+cppobf graph.cpp -reserve=edgs -reserve=edghead ...# 保留全局变量
+cppobf lib.cpp -reserve=Lib::* ...                 # 仅保留 public 方法名（类名仍混淆）
+```
+
+保留在收集阶段从待重命名集合中整体剔除（同名声明与引用一致保持原名）。
+注意映射按名字进行：保留某 public 方法名后，其他类中的同名方法也会
+一并保持原名。
+
 ### 宏混淆的设计要点（相对旧版 def_obf.py 的修正）
 
 - 预处理指令**在原位置**原样保留（指令永远不能来自宏展开）；
@@ -158,6 +174,9 @@ tests/run_tests.sh          # 或指定工具路径: tests/run_tests.sh build/cp
   崩溃时跳过对比）；产物在 `tests/.obf_out/` 下的同名 `.*.cpp`。
 - 基线不可编译（VSCode 片段模板 `$0`/`${1:...}`、自身有错的文件）⇒ 工具必须
   同样干净地失败（非零退出、不产出输出）。
+- reserve 保留名测试（脚本内按文件配置，如 ModInt→Mint、MaxFlow 文件→
+  MaxFlow、listed_graph 系列→edgs/edghead）：保留名必须存活在产物中，
+  其余名字照常混淆，产物必须编译通过。
 
-当前结果：**151/151 全部通过**（18 个可编译文件 × 8 模式 + 7 个基线不可编译
-文件的拒绝行为，`.py` 不适用）。
+当前结果：**158/158 全部通过**（18 个可编译文件 × 8 模式 + 7 个基线不可编译
+文件的拒绝行为 + 7 个保留名测试，`.py` 不适用）。

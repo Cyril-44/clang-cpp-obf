@@ -61,6 +61,15 @@ static llvm::cl::opt<bool> NoRename(
     "no-rename", llvm::cl::desc("关闭标识符重命名"),
     llvm::cl::init(false), llvm::cl::cat(OBFCategory));
 
+static llvm::cl::list<std::string> Reserve(
+    "reserve",
+    llvm::cl::desc("保留指定名字不做重命名（可重复）。\n"
+                   "-reserve=Mint      保留该名字（类/别名/函数/变量）\n"
+                   "-reserve=MaxFlow   保留类名，并延申保留其全部 public 方法名\n"
+                   "-reserve=MaxFlow::* 仅延申保留 public 方法名（类名仍重命名）"),
+    llvm::cl::CommaSeparated, llvm::cl::ZeroOrMore,
+    llvm::cl::cat(OBFCategory));
+
 static llvm::cl::opt<std::string> Output(
     "o", llvm::cl::desc("输出文件路径（默认写 stdout）"),
     llvm::cl::cat(OBFCategory));
@@ -98,6 +107,7 @@ static std::vector<std::unique_ptr<obf::ASTObfPass>> buildPipeline() {
         rename->MinLen = MinLen;
         rename->MaxLen = MaxLen;
         rename->Seed = Seed;
+        rename->Reserve.assign(Reserve.begin(), Reserve.end());
         passes.push_back(std::move(rename));
     }
     if (Flatten) {

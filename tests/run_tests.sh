@@ -135,6 +135,50 @@ for f in "$ROOT"/tests/*.cpp; do
     done
 done
 
+# reserve 保留名回归配置：文件名 -> 工具 flags；CHECK -> 必须存活在产物中的名字
+declare -A RESERVE=(
+    ["ModInt.cpp"]="-reserve=Mint"
+    ["MaxFlow-HLPP.cpp"]="-reserve=MaxFlow"
+    ["maxflow & BG match.cpp"]="-reserve=MaxFlow"
+    ["listed_graph_directed_noweight.cpp"]="-reserve=edgs -reserve=edghead"
+    ["listed_graph_directed_weight.cpp"]="-reserve=edgs -reserve=edghead"
+    ["listed_graph_undirected_noweight.cpp"]="-reserve=edgs -reserve=edghead"
+    ["listed_graph_undirected_weight.cpp"]="-reserve=edgs -reserve=edghead"
+)
+declare -A RESERVE_CHECK=(
+    ["ModInt.cpp"]="Mint"
+    ["MaxFlow-HLPP.cpp"]="MaxFlow push"
+    ["maxflow & BG match.cpp"]="MaxFlow bfs"
+    ["listed_graph_directed_noweight.cpp"]="edgs edghead"
+    ["listed_graph_directed_weight.cpp"]="edgs edghead"
+    ["listed_graph_undirected_noweight.cpp"]="edgs edghead"
+    ["listed_graph_undirected_weight.cpp"]="edgs edghead"
+)
+
+# ---- reserve 保留名测试（名字存活 + 其余照常混淆 + 编译/运行一致）----
+echo "== reserve 保留名测试"
+for name in "${!RESERVE[@]}"; do
+    f="$ROOT/tests/$name"
+    flags="${RESERVE[$name]}"
+    checks="${RESERVE_CHECK[$name]:-}"
+    out="$OUT/$name.reserve.cpp"
+    if ! timeout -s KILL 120 "$TOOL" "$f" -o "$out" -compress -flatten -rt \
+        $flags -seed=42 -- clang++ -std=c++20 2>"$OUT/$name.reserve.log"; then
+        record fail "$name [reserve]" "工具运行失败（见 $OUT/$name.reserve.log）"
+        continue
+    fi
+    bad=""
+    for nm in $checks; do
+        grep -qE "(^|[^A-Za-z0-9_])$nm([^A-Za-z0-9_]|$)" "$out" || bad="$bad $nm"
+    done
+    [ -n "$bad" ] && { record fail "$name [reserve]" "保留名未存活:$bad"; continue; }
+    if ! guarded_compile "$OUT/$name.reserve.cc.log" -fsyntax-only "$out"; then
+        record fail "$name [reserve]" "混淆产物编译失败（见 $OUT/$name.reserve.cc.log）"
+        continue
+    fi
+    record ok "$name [reserve]" "保留名存活 + 编译通过"
+done
+
 echo
 echo "===== 结果: PASS=$pass FAIL=$fail ====="
 if [ "$fail" -gt 0 ]; then
