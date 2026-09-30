@@ -1,0 +1,9 @@
+build/
+build_Rel/
+CMakeFiles/
+compile_commands.json
+.cache/
+.clangd/
+tests/.obf_out/
+*.o
+a.out
