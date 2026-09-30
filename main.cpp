@@ -20,6 +20,7 @@
 
 #include <llvm/Support/raw_ostream.h>
 
+#include "obf/Compress.hpp"
 #include "obf/FlattenPass.hpp"
 #include "obf/MacroObfuscator.hpp"
 #include "obf/OpaquePass.hpp"
@@ -73,6 +74,10 @@ static llvm::cl::list<std::string> Reserve(
 static llvm::cl::opt<std::string> Output(
     "o", llvm::cl::desc("输出文件路径（默认写 stdout）"),
     llvm::cl::cat(OBFCategory));
+
+static llvm::cl::opt<bool> KeepComments(
+    "keep-comments", llvm::cl::desc("保留注释（默认自动去除注释）"),
+    llvm::cl::init(false), llvm::cl::cat(OBFCategory));
 
 static llvm::cl::opt<bool> Flatten(
     "flatten", llvm::cl::desc("控制流扁平化"),
@@ -212,6 +217,13 @@ int main(int argc, const char **argv) {
     if (outcome.Failed) return 2;
 
     std::string text = std::move(outcome.Text);
+
+    // 自动去除注释（-keep-comments 可保留）；在宏混淆之前进行
+    if (!KeepComments) text = obf::stripComments(text);
+
+    // -compress：压缩命名的同时自动压缩代码版式（最小间隔拼接、
+    // 注释清除、续行/三字符组/%: 归一，指令行独立）
+    if (Compress) text = obf::compressSource(text);
 
     // 文本级 pass：宏定义混淆
     if (MacroObf) {

@@ -363,6 +363,18 @@ inline std::set<std::string> collectIdentifiers(const std::string &src) {
     return ids;
 }
 
+// 去除注释：所有 token 原样拼接、注释 token 替换为一个空格。
+// 空格必不可少——直接删除会让 a/**/b 粘连成 ab；行注释后紧跟的换行
+// 属独立 token，行结构得以保留。指令行行尾的注释随指令行一并保留
+//（分词器把整条指令行作为一个 token，属罕见形态）。
+inline std::string stripComments(const std::string &src) {
+    std::string out;
+    out.reserve(src.size());
+    for (const Token &t : lexSource(src))
+        out += (t.kind == TokKind::Comment) ? std::string(" ") : t.text;
+    return out;
+}
+
 // ============================ 名字生成器 ============================
 // compress 模式：53/63 混合进制最短编码（a, b, ..., _, aa, ab, ...），天然
 //               "尽量复用"——不同声明若原始名相同则共享同一个短名；

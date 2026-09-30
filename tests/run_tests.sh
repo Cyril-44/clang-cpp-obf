@@ -179,6 +179,22 @@ for name in "${!RESERVE[@]}"; do
     record ok "$name [reserve]" "保留名存活 + 编译通过"
 done
 
+# ---- 注释清除测试（默认自动去除；-keep-comments 可保留）----
+echo "== 注释清除测试"
+name="BigInt.cpp"; f="$ROOT/tests/$name"; out="$OUT/$name.nocomment.cpp"
+if ! grep -q 'brief' "$f"; then
+    record fail "$name [nocomment]" "测试前提不成立：源文件应包含注释"
+elif ! timeout -s KILL 120 "$TOOL" "$f" -o "$out" -compress -seed=42 \
+        -- clang++ -std=c++20 2>"$OUT/$name.nocomment.log"; then
+    record fail "$name [nocomment]" "工具运行失败（见 $OUT/$name.nocomment.log）"
+elif grep -q 'brief' "$out"; then
+    record fail "$name [nocomment]" "注释残留：产物中仍能找到注释专属文本"
+elif ! guarded_compile "$OUT/$name.nocomment.cc.log" -fsyntax-only "$out"; then
+    record fail "$name [nocomment]" "产物编译失败（见 $OUT/$name.nocomment.cc.log）"
+else
+    record ok "$name [nocomment]" "注释已清除 + 编译通过"
+fi
+
 echo
 echo "===== 结果: PASS=$pass FAIL=$fail ====="
 if [ "$fail" -gt 0 ]; then
