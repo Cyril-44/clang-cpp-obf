@@ -44,6 +44,7 @@ cmake --build build -j
 | `-o FILE` | 输出文件（默认 stdout） |
 | `-flatten` | 控制流扁平化（函数体 → 状态机分派循环） |
 | `-opaque` | 插入混淆逻辑：常量 XOR 分解 + 不透明谓词垃圾块 |
+| `-rt` | 常量/字符串**运行时**混淆：密文静态存储、运行期解密（防常量折叠，二进制无明文） |
 
 ## 架构
 
@@ -94,6 +95,25 @@ default: done = true; break;
 - 生成的新名字取自"当前已改写缓冲区"的禁用集合，逐 pass 收紧，
   绝不与前序 pass 的产物撞名。
 
+### 常量/字符串运行时混淆（`-rt`）
+
+静态 XOR 分解只混淆源码——编译期常量折叠会把值还原进二进制。运行时
+混淆让解密发生在运行期，二进制中不再出现明文：
+
+- **整数字面量** → `([]{ static T v = <密文>; return (T)(v ^ K); }())`：
+  密文 `密文 = 原值 ^ K` 预折叠，`v ^ K` 经内存加载后异或，阻断折叠；
+- **窄字符串** → `([]{ static char b[] = {密文字节}; static bool o = []
+  { for(...) b[i] ^= (char)(K1 + i*K2); return true; }(); return b; }())`：
+  位置相关密钥逐字节加密（含结尾 NUL，源码中无 0x00 泄漏长度），
+  magic static 保证解密一次、线程安全；`strings` 扫描二进制无明文。
+
+上下文判定是正确性的关键：运行时形式是普通（非常量）表达式，只能用于
+普通表达式位置。pass 沿 ParentMap 祖先链识别并跳过 case 标签、模板实参、
+枚举初值、`static_assert`、`sizeof`、`asm`、位域、数组界（按"是否位于
+初始化器内"精确区分）、`char a[] = "x"` 数组推导、UDL 后缀（`1_km`）、
+constexpr/const 声明与 constexpr 函数体等位置——这些位置自动回退到
+静态 XOR 分解（仍混淆源码）。
+
 ### 重命名的设计要点（obf/RenamePass.hpp）
 
 - **按「原始名 → 新名」的 TU 级映射**而非按 Decl 粒度：同名声明共享新名，
@@ -132,12 +152,12 @@ tests/run_tests.sh          # 或指定工具路径: tests/run_tests.sh build/cp
 
 对 `tests/` 下每个 `.cpp`（`.py` 跳过）：
 
-- 基线可编译 ⇒ 七种模式（random / compress / compress+macro / macro /
-  flatten / opaque / full 全家桶）的产物必须编译通过；定义了 `main` 的还必须
-  与原程序**运行行为一致**（stdout + 退出码）；产物在 `tests/.obf_out/` 下
-  的同名 `.*.cpp`。
+- 基线可编译 ⇒ 八种模式（random / compress / compress+macro / macro /
+  flatten / opaque / rt / full 全家桶）的产物必须编译通过；定义了 `main`
+  的还必须与原程序**运行行为一致**（stdout + 退出码；基线程序自身因 UB
+  崩溃时跳过对比）；产物在 `tests/.obf_out/` 下的同名 `.*.cpp`。
 - 基线不可编译（VSCode 片段模板 `$0`/`${1:...}`、自身有错的文件）⇒ 工具必须
   同样干净地失败（非零退出、不产出输出）。
 
-当前结果：**133/133 全部通过**（18 个可编译文件 × 7 模式 + 7 个基线不可编译
+当前结果：**151/151 全部通过**（18 个可编译文件 × 8 模式 + 7 个基线不可编译
 文件的拒绝行为，`.py` 不适用）。

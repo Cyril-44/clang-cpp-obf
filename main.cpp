@@ -74,6 +74,11 @@ static llvm::cl::opt<bool> Opaque(
     llvm::cl::desc("插入混淆逻辑：常量 XOR 分解 + 不透明谓词垃圾块"),
     llvm::cl::init(false), llvm::cl::cat(OBFCategory));
 
+static llvm::cl::opt<bool> RT(
+    "rt",
+    llvm::cl::desc("常量/字符串运行时混淆：密文静态存储，运行期解密（防常量折叠）"),
+    llvm::cl::init(false), llvm::cl::cat(OBFCategory));
+
 namespace {
 
 struct RunOutcome {
@@ -104,12 +109,13 @@ static std::vector<std::unique_ptr<obf::ASTObfPass>> buildPipeline() {
         flatRaw = flatten.get();
         passes.push_back(std::move(flatten));
     }
-    if (Opaque) {
+    if (Opaque || RT) {
         auto opaque = std::make_unique<obf::OpaquePass>();
         opaque->Compress = Compress;
         opaque->MinLen = MinLen;
         opaque->MaxLen = MaxLen;
         opaque->Seed = Seed;
+        opaque->RuntimeMode = RT;
         if (flatRaw) {
             // FlattenPass 对象在堆上，unique_ptr 转移不改变其地址
             opaque->ClaimedBodies = &flatRaw->ClaimedBodies;
