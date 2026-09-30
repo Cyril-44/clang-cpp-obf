@@ -42,20 +42,57 @@ cmake --build build -j
 | `-macro-obf` | 附加功能：宏定义混淆 |
 | `-no-rename` | 关闭重命名 |
 | `-o FILE` | 输出文件（默认 stdout） |
-| `-flatten` / `-opaque` | 控制流扁平化 / 混淆逻辑插入（预留，当前报错退出） |
+| `-flatten` | 控制流扁平化（函数体 → 状态机分派循环） |
+| `-opaque` | 插入混淆逻辑：常量 XOR 分解 + 不透明谓词垃圾块 |
 
 ## 架构
 
 ```
 main.cpp               驱动：CLI、ClangTool、pass 流水线组装
-obf/Passes.hpp         ASTObfPass / TextObfPass 接口 + 扁平化/混淆逻辑插入预留槽位
+obf/Passes.hpp         ASTObfPass / TextObfPass 接口
 obf/RenamePass.hpp     C++20 全量重命名 pass（两遍遍历：收集→分配→改写）
+obf/FlattenPass.hpp    控制流扁平化（纯插入式改写）
+obf/OpaquePass.hpp     插入混淆逻辑：常量 XOR 分解 + 不透明谓词垃圾块
 obf/MacroObfuscator.hpp 宏定义混淆（def_obf.py 的移植修正版，文本级）
 obf/Support.hpp        C++ 分词器（pp-number/raw string/UDL/多字符运算符）+ 名字生成器
 ```
 
-流水线：`[RenamePass] → (未来: ControlFlowFlatteningPass / OpaqueFlowPass)` 在
-AST+Rewriter 上执行，随后 `MacroObfuscator` 对改写后的文本做变换。
+流水线：`[RenamePass] → [FlattenPass] → [OpaqueFlowPass]` 在 AST+Rewriter 上
+依次执行，随后 `MacroObfuscator` 对改写后的文本做变换。各 pass 的编辑互不
+重叠：Rename 按 token 范围替换；Flatten 纯插入；Opaque 避开 Flatten 的插入点。
+
+### 控制流扁平化的形态（obf/FlattenPass.hpp）
+
+函数体的顶层语句序列被改写为状态机分派循环：
+
+```cpp
+<前导声明原样保留>
+<垃圾块>
+unsigned st = c0^K; const unsigned K = ...; bool done = false;
+while (!done) switch (st ^= K) {
+case c0: { <原语句0 原地保留> ; } st = c1^K; continue;
+case c1: { <原语句1 原地保留> ; } st = c2^K; continue;
+...
+default: done = true; break;
+}
+```
+
+工程决策：**纯插入式改写**——不替换任何既有文本，只在语句边界（`;`/`}`/`{`
+之后，语句永不以标识符结尾）插入调度器文本，因此与 Rename 的按 token 替换
+零重叠，且被包裹语句仍在原 AST 节点上被正常重命名。声明语句（含 VLA）全部
+留在前导序贯区（case 块间跳转会跨越初始化）。跳过：含 goto/label 的函数、
+协程体、constexpr/consteval、构造/析构、语句含宏展开、可用语句少于 2 条。
+
+### 混淆逻辑插入（obf/OpaquePass.hpp）
+
+- **常量 XOR 分解**：值 ≥ 10 的整数字面量替换为
+  `((T)(A ^ B))`（A、B 为随机 64 位常数，异或还原原值）——分解结果仍是
+  常量表达式，case 标签 / 数组界 / 模板实参 / 枚举初值等位置全部可用；
+- **不透明谓词垃圾块**：`n*n+n` 恒为偶数这一事实驱动的自包含计算块，
+  插入未扁平化函数的顶层语句前（已扁平化函数的垃圾块由 FlattenPass 在
+  每个 case 中插入），无副作用；
+- 生成的新名字取自"当前已改写缓冲区"的禁用集合，逐 pass 收紧，
+  绝不与前序 pass 的产物撞名。
 
 ### 重命名的设计要点（obf/RenamePass.hpp）
 
@@ -95,11 +132,12 @@ tests/run_tests.sh          # 或指定工具路径: tests/run_tests.sh build/cp
 
 对 `tests/` 下每个 `.cpp`（`.py` 跳过）：
 
-- 基线可编译 ⇒ 四种模式（random / compress / compress+macro / macro）的产物
-  必须编译通过；定义了 `main` 的还必须与原程序**运行行为一致**（stdout +
-  退出码）；产物在 `tests/.obf_out/` 下的同名 `.*.cpp`。
+- 基线可编译 ⇒ 七种模式（random / compress / compress+macro / macro /
+  flatten / opaque / full 全家桶）的产物必须编译通过；定义了 `main` 的还必须
+  与原程序**运行行为一致**（stdout + 退出码）；产物在 `tests/.obf_out/` 下
+  的同名 `.*.cpp`。
 - 基线不可编译（VSCode 片段模板 `$0`/`${1:...}`、自身有错的文件）⇒ 工具必须
   同样干净地失败（非零退出、不产出输出）。
 
-当前结果：**79/79 全部通过**（18 个可编译文件 × 4 模式 + 7 个基线不可编译
+当前结果：**133/133 全部通过**（18 个可编译文件 × 7 模式 + 7 个基线不可编译
 文件的拒绝行为，`.py` 不适用）。

@@ -20,8 +20,9 @@
 
 #include <llvm/Support/raw_ostream.h>
 
+#include "obf/FlattenPass.hpp"
 #include "obf/MacroObfuscator.hpp"
-#include "obf/Passes.hpp"
+#include "obf/OpaquePass.hpp"
 #include "obf/RenamePass.hpp"
 #include "obf/Support.hpp"
 
@@ -65,15 +66,13 @@ static llvm::cl::opt<std::string> Output(
     llvm::cl::cat(OBFCategory));
 
 static llvm::cl::opt<bool> Flatten(
-    "flatten", llvm::cl::desc("控制流扁平化（预留，尚未实现）"),
+    "flatten", llvm::cl::desc("控制流扁平化"),
     llvm::cl::init(false), llvm::cl::cat(OBFCategory));
 
 static llvm::cl::opt<bool> Opaque(
-    "opaque", llvm::cl::desc("插入混淆逻辑/不透明谓词（预留，尚未实现）"),
+    "opaque",
+    llvm::cl::desc("插入混淆逻辑：常量 XOR 分解 + 不透明谓词垃圾块"),
     llvm::cl::init(false), llvm::cl::cat(OBFCategory));
-
-bool obf::ControlFlowFlatteningPass::NotYetImplemented = false;
-bool obf::OpaqueFlowPass::NotYetImplemented = false;
 
 namespace {
 
@@ -83,9 +82,11 @@ struct RunOutcome {
     bool GotResult = false;
 };
 
-// 依据全局选项组装 AST pass 流水线（每次动作各建一份）
+// 依据全局选项组装 AST pass 流水线（每次动作各建一份）。
+// 顺序：重命名 → 扁平化 → 混淆逻辑插入（编辑互不重叠，见 Passes.hpp）
 static std::vector<std::unique_ptr<obf::ASTObfPass>> buildPipeline() {
     std::vector<std::unique_ptr<obf::ASTObfPass>> passes;
+    obf::FlattenPass *flatRaw = nullptr;
     if (!NoRename) {
         auto rename = std::make_unique<obf::RenamePass>();
         rename->Compress = Compress;
@@ -94,10 +95,28 @@ static std::vector<std::unique_ptr<obf::ASTObfPass>> buildPipeline() {
         rename->Seed = Seed;
         passes.push_back(std::move(rename));
     }
-    if (Flatten)
-        passes.push_back(std::make_unique<obf::ControlFlowFlatteningPass>());
-    if (Opaque)
-        passes.push_back(std::make_unique<obf::OpaqueFlowPass>());
+    if (Flatten) {
+        auto flatten = std::make_unique<obf::FlattenPass>();
+        flatten->Compress = Compress;
+        flatten->MinLen = MinLen;
+        flatten->MaxLen = MaxLen;
+        flatten->Seed = Seed;
+        flatRaw = flatten.get();
+        passes.push_back(std::move(flatten));
+    }
+    if (Opaque) {
+        auto opaque = std::make_unique<obf::OpaquePass>();
+        opaque->Compress = Compress;
+        opaque->MinLen = MinLen;
+        opaque->MaxLen = MaxLen;
+        opaque->Seed = Seed;
+        if (flatRaw) {
+            // FlattenPass 对象在堆上，unique_ptr 转移不改变其地址
+            opaque->ClaimedBodies = &flatRaw->ClaimedBodies;
+            opaque->InsertOffsets = &flatRaw->InsertOffsets;
+        }
+        passes.push_back(std::move(opaque));
+    }
     return passes;
 }
 
@@ -112,14 +131,7 @@ struct ObfASTConsumer : public ASTConsumer {
         : R(R), Passes(std::move(passes)), Out(out) {}
 
     void HandleTranslationUnit(ASTContext &Ctx) override {
-        for (auto &P : Passes) {
-            P->run(R, Ctx);
-            if (obf::ControlFlowFlatteningPass::NotYetImplemented ||
-                obf::OpaqueFlowPass::NotYetImplemented) {
-                Out->Failed = true;
-                return;
-            }
-        }
+        for (auto &P : Passes) P->run(R, Ctx);
         FileID FID = Ctx.getSourceManager().getMainFileID();
         std::string text;
         llvm::raw_string_ostream os(text);

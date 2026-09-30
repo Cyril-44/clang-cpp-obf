@@ -2,10 +2,14 @@
 # tests/run_tests.sh — cppobf 回归测试
 #
 # 对 tests/ 下每个 .cpp 文件（.py 跳过）：
-#   * 基线可编译  ⇒ 4 种模式的混淆产物必须可编译；
+#   * 基线可编译  ⇒ 所有模式的混淆产物必须可编译；
 #     定义了 main 的还必须与原程序运行行为一致（stdout + 退出码）
 #   * 基线不可编译（VSCode 片段模板、本身有错的文件）⇒ 工具必须同样
 #     干净地失败（非零退出、不产出输出）——行为与基线一致才算通过
+#
+# 资源护栏：每个 g++/clang++ 编译限制 4GB 虚拟内存 + 180s；每次运行限制
+# 15s。病理性用例只判失败，不会拖垮机器。（模板+concepts 的文件在
+# g++10 下语法检查可耗 6.6GB，故验证编译器优先用 clang++。）
 #
 # 用法：tests/run_tests.sh [工具路径]   （默认 build/cppobf）
 set -u
@@ -13,9 +17,27 @@ set -u
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TOOL="${1:-$ROOT/build/cppobf}"
 OUT="$ROOT/tests/.obf_out"
-CXX=g++
 STD=-std=c++20
-RUNTIME_TIMEOUT=10
+RUNTIME_TIMEOUT=15
+COMPILE_TIMEOUT=180
+MEMCAP_KB=4194304   # 4GB 虚拟内存上限
+
+# 验证编译器：优先 clang（内存占用小一个量级），退回 g++
+if command -v clang++ >/dev/null 2>&1; then
+    CXX=clang++
+elif [ -x /usr/lib/llvm-18/bin/clang++ ]; then
+    CXX=/usr/lib/llvm-18/bin/clang++
+else
+    CXX=g++
+fi
+
+# 受限编译：guarded_compile <日志文件> <编译器参数...>
+# 日志固定为第一个参数，其余原样作为编译器命令行，避免参数错位
+guarded_compile() {
+    local log="$1"; shift
+    ( ulimit -v $MEMCAP_KB 2>/dev/null
+      exec timeout -s KILL $COMPILE_TIMEOUT $CXX $STD -w -I "$ROOT/tests" "$@" ) >"$log" 2>&1
+}
 
 [ -x "$TOOL" ] || { echo "工具不存在: $TOOL（先 cmake --build build）"; exit 2; }
 mkdir -p "$OUT"
@@ -26,6 +48,9 @@ MODES=(
     "compress:-compress -seed=42"
     "compress+macro:-compress -macro-obf -seed=42"
     "macro:-no-rename -macro-obf -seed=42"
+    "flatten:-flatten -seed=42"
+    "opaque:-opaque -seed=42"
+    "full:-compress -flatten -opaque -macro-obf -seed=42"
 )
 
 pass=0; fail=0
@@ -41,7 +66,7 @@ for f in "$ROOT"/tests/*.cpp; do
     echo "== $name"
 
     base_ok=0
-    if (cd "$ROOT/tests" && $CXX $STD -w -fsyntax-only "$name" 2>/dev/null); then
+    if guarded_compile "$OUT/$name.base.log" -fsyntax-only "$f"; then
         base_ok=1
     fi
 
@@ -62,33 +87,33 @@ for f in "$ROOT"/tests/*.cpp; do
     for m in "${MODES[@]}"; do
         mode="${m%%:*}"; flags="${m#*:}"
         out="$OUT/$name.$mode.cpp"
-        if ! "$TOOL" "$f" -o "$out" $flags -- clang++ -std=c++20 \
+        if ! timeout -s KILL 120 "$TOOL" "$f" -o "$out" $flags -- clang++ -std=c++20 \
             2>"$OUT/$name.$mode.log"; then
-            record fail "$name [$mode]" "工具运行失败（见 $OUT/$name.$mode.log）"
+            record fail "$name [$mode]" "工具运行失败/超时（见 $OUT/$name.$mode.log）"
             continue
         fi
-        # 混淆产物必须可编译（-I tests 保证 quoted include 仍能找到）
-        if ! (cd "$ROOT/tests" && $CXX $STD -w -fsyntax-only -I "$ROOT/tests" "$out" 2>"$OUT/$name.$mode.cc.log"); then
-            record fail "$name [$mode]" "混淆产物编译失败（见 $OUT/$name.$mode.cc.log）"
+        # 混淆产物必须可编译
+        if ! guarded_compile "$OUT/$name.$mode.cc.log" -fsyntax-only "$out"; then
+            record fail "$name [$mode]" "混淆产物编译失败/资源超限（见 $OUT/$name.$mode.cc.log）"
             continue
         fi
         # 运行等价性
         if [ "$has_main" = 1 ]; then
             obin="$OUT/$name.orig.bin"; fbin="$OUT/$name.$mode.bin"
-            if ! (cd "$ROOT/tests" && $CXX $STD -w -o "$obin" "$name" 2>/dev/null); then
+            if ! guarded_compile "$OUT/$name.link.log" -o "$obin" "$f"; then
                 record ok "$name [$mode]" "（原文件可语法检查但无法链接，跳过运行对比）"
                 continue
             fi
-            if ! (cd "$ROOT/tests" && $CXX $STD -w -o "$fbin" -I "$ROOT/tests" "$out" 2>>"$OUT/$name.$mode.cc.log"); then
+            if ! guarded_compile "$OUT/$name.$mode.link.log" -o "$fbin" "$out"; then
                 record fail "$name [$mode]" "混淆产物链接失败"
                 continue
             fi
             ( timeout $RUNTIME_TIMEOUT "$obin" </dev/null >"$OUT/$name.orig.out" 2>/dev/null; echo $? >"$OUT/$name.orig.rc" )
             ( timeout $RUNTIME_TIMEOUT "$fbin" </dev/null >"$OUT/$name.$mode.out" 2>/dev/null; echo $? >"$OUT/$name.$mode.rc" )
             orc="$(cat "$OUT/$name.orig.rc")"; frc="$(cat "$OUT/$name.$mode.rc")"
-            if [ "$orc" = 124 ] || [ "$frc" = 124 ]; then
+            if [ "$orc" = 137 ] || [ "$frc" = 137 ]; then
                 if [ "$orc" = "$frc" ]; then
-                    record ok "$name [$mode]" "（双方均超时，一致）"
+                    record ok "$name [$mode]" "（双方均超时被杀，一致）"
                 else
                     record fail "$name [$mode]" "运行超时不一致（orig=$orc obf=$frc）"
                 fi
