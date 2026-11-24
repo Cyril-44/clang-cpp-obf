@@ -82,11 +82,15 @@ enum class TokKind {
 struct Token {
     TokKind kind;
     std::string text;
+    // 在源文本中的起始偏移（lexSource 产生的 token 有效；由别的 token 拼成的
+    // 合并 token 不对应源文本，保持 0）
+    size_t begin = 0;
 };
 
 // 三字符优先的运算符表
-static const char *const kOps3[] = {"<<=", ">>=", "<=>", "->*", "%:%:", nullptr};
-static const char *const kOps2[] = {"::", "...", ".*",
+static const char *const kOps3[] = {"<<=", ">>=", "<=>", "->*", "...", "%:%:", nullptr};
+static const char *const kOps2[] = {"::",
+                                    ".*",
                                     "==", "!=", "<=", ">=", "&&", "||", "++",
                                     "--", "->", "<<", ">>", "+=", "-=", "*=",
                                     "/=", "%=", "&=", "|=", "^=",
@@ -141,7 +145,7 @@ inline size_t lexStringEnd(const std::string &s, size_t i) {
     size_t j = p + 1;
     while (j < n) {
         if (s[j] == '\\') {
-            j += 2;
+            j += (s[j + 1] == '\r' && s[j + 2] == '\n') ? 3 : 2; // 续行（含 CRLF）或转义
             continue;
         }
         if (s[j] == q) {
@@ -155,36 +159,96 @@ inline size_t lexStringEnd(const std::string &s, size_t i) {
     return j;
 }
 
+// 位置 k 的换行是否被 `\` 续行。`\` 与换行之间夹空白时编译器同样按续行处理
+// （并告警），这里保持一致；CRLF 的 `\r` 属于被跳过的空白。
+inline bool isSplicedNewline(const std::string &s, size_t k) {
+    while (k > 0 && (s[k - 1] == ' ' || s[k - 1] == '\t' || s[k - 1] == '\r'))
+        --k;
+    return k > 0 && s[k - 1] == '\\';
+}
+
+// 从 from 起找逻辑行的行尾换行（被续行跨过的换行不算）；找不到返回 npos
+inline size_t lexLogicalLineEnd(const std::string &s, size_t from) {
+    for (size_t k = from; k < s.size(); ++k)
+        if (s[k] == '\n' && !isSplicedNewline(s, k)) return k;
+    return std::string::npos;
+}
+
+// 同 lexStringEnd，但字面量必须在一行（逻辑行）内闭合：中途出现非续行的换行
+// 即认为这里不是字面量，返回 0。逐行处理的阶段与指令行内的扫描都依赖这一点——
+// `#error don't` 里的撇号、已失效的注释里的引号不能让后面的文本被当成字面量。
+inline size_t lexLiteralEndInLine(const std::string &s, size_t i) {
+    if (i >= s.size()) return 0;
+    char c = s[i];
+    if (c != '"' && c != '\'' && !isIdentStart((unsigned char)c)) return 0;
+    size_t e = lexStringEnd(s, i);
+    if (!e || e <= i) return 0;
+    for (size_t j = i; j + 1 < e; ++j)
+        if (s[j] == '\n' && !isSplicedNewline(s, j)) return 0;
+    return e;
+}
+
+// 去除单条预处理指令内的注释：块注释 → 一个空格；行注释连同其续行一并删除，
+// 行尾换行保留。字面量整体跳过（`#define X "a/*b"` 里的 `/*` 不是注释）。
+inline std::string stripDirectiveComments(const std::string &dir) {
+    if (dir.find('/') == std::string::npos) return dir;
+    std::string out;
+    size_t n = dir.size();
+    for (size_t i = 0; i < n;) {
+        char c = dir[i];
+        if (c == '/' && i + 1 < n && dir[i + 1] == '*') {
+            size_t e = dir.find("*/", i + 2);
+            out += ' ';
+            i = (e == std::string::npos) ? n : e + 2;
+        } else if (c == '/' && i + 1 < n && dir[i + 1] == '/') {
+            size_t e = lexLogicalLineEnd(dir, i + 2);
+            out += dir.substr(e == std::string::npos ? n : e);
+            break;
+        } else if (size_t e = lexLiteralEndInLine(dir, i)) {
+            out += dir.substr(i, e - i);
+            i = e;
+        } else {
+            out += c;
+            ++i;
+        }
+    }
+    return out;
+}
+
 inline std::vector<Token> lexSource(const std::string &src) {
     std::vector<Token> out;
     size_t i = 0, n = src.size();
     bool lineStart = true; // 当前行到目前为止只有空白（允许 # 出现在缩进后）
     auto push = [&](TokKind k, size_t b, size_t e) {
-        out.push_back({k, src.substr(b, e - b)});
+        out.push_back({k, src.substr(b, e - b), b});
     };
 
     while (i < n) {
         char c = src[i];
 
-        // 行首预处理指令（允许前面有空白）
+        // 行首预处理指令（允许前面有空白）：整条逻辑行（含续行）作为一个 token。
+        // 扫描时跳过注释与字面量——块注释里的换行不结束指令，注释和字面量里的
+        // 引号、反斜杠也不算数
         if (lineStart && c == '#') {
             size_t j = i;
             while (j < n) {
-                if (src[j] == '\\') { // 续行
-                    size_t k = j + 1;
-                    while (k < n && (src[k] == ' ' || src[k] == '\t' ||
-                                     src[k] == '\r'))
-                        ++k;
-                    if (k < n && src[k] == '\n') {
-                        j = k + 1;
-                        continue;
-                    }
-                }
-                if (src[j] == '\n') {
+                char d = src[j];
+                if (d == '\n') {
                     ++j;
+                    if (!isSplicedNewline(src, j - 1)) break; // 逻辑行到此结束
+                } else if (d == '/' && j + 1 < n && src[j + 1] == '*') {
+                    size_t e = src.find("*/", j + 2);
+                    j = (e == std::string::npos) ? n : e + 2;
+                } else if (d == '/' && j + 1 < n && src[j + 1] == '/') {
+                    // 行注释到逻辑行尾，被续行带上的后续各行也属于注释
+                    size_t e = lexLogicalLineEnd(src, j + 2);
+                    j = (e == std::string::npos) ? n : e + 1;
                     break;
+                } else if (size_t e = lexLiteralEndInLine(src, j)) {
+                    j = e;
+                } else {
+                    ++j;
                 }
-                ++j;
             }
             push(TokKind::Directive, i, j);
             i = j;
@@ -198,6 +262,14 @@ inline std::vector<Token> lexSource(const std::string &src) {
             lineStart = true;
             continue;
         }
+        // 普通代码中的反斜杠续行（LF 或 CRLF）：视作空白
+        if (c == '\\' && i + 1 < n &&
+            (src[i + 1] == '\n' ||
+             (src[i + 1] == '\r' && i + 2 < n && src[i + 2] == '\n'))) {
+            push(TokKind::Space, i, i + 1);
+            i += (src[i + 1] == '\r') ? 3 : 2;
+            continue;
+        }
         if (c == ' ' || c == '\t' || c == '\r' || c == '\v' || c == '\f') {
             size_t j = i;
             while (j < n && (src[j] == ' ' || src[j] == '\t' || src[j] == '\r' ||
@@ -209,23 +281,10 @@ inline std::vector<Token> lexSource(const std::string &src) {
         }
         lineStart = false;
 
-        // 普通代码中的反斜杠续行：视作空白
-        if (c == '\\' && i + 1 < n && src[i + 1] == '\n') {
-            push(TokKind::Space, i, i + 1);
-            i += 2;
-            continue;
-        }
-
+        // 行注释：到逻辑行尾为止（续行把注释延长到下一行）；行尾换行另行成 token
         if (c == '/' && i + 1 < n && src[i + 1] == '/') {
-            size_t j = i;
-            while (j < n && src[j] != '\n') {
-                if (src[j] == '\\' && j + 1 < n && src[j + 1] == '\n') {
-                    // 注释内的续行把注释延长到下一行
-                    j += 2;
-                    continue;
-                }
-                ++j;
-            }
+            size_t e = lexLogicalLineEnd(src, i + 2);
+            size_t j = (e == std::string::npos) ? n : e;
             push(TokKind::Comment, i, j);
             i = j;
             continue;
@@ -365,13 +424,19 @@ inline std::set<std::string> collectIdentifiers(const std::string &src) {
 
 // 去除注释：所有 token 原样拼接、注释 token 替换为一个空格。
 // 空格必不可少——直接删除会让 a/**/b 粘连成 ab；行注释后紧跟的换行
-// 属独立 token，行结构得以保留。指令行行尾的注释随指令行一并保留
-//（分词器把整条指令行作为一个 token，属罕见形态）。
+// 属独立 token，行结构得以保留。指令行内的注释同样清除（见
+// stripDirectiveComments），指令行外的换行不受影响。
 inline std::string stripComments(const std::string &src) {
     std::string out;
     out.reserve(src.size());
-    for (const Token &t : lexSource(src))
-        out += (t.kind == TokKind::Comment) ? std::string(" ") : t.text;
+    for (const Token &t : lexSource(src)) {
+        if (t.kind == TokKind::Comment)
+            out += ' ';
+        else if (t.kind == TokKind::Directive)
+            out += stripDirectiveComments(t.text);
+        else
+            out += t.text;
+    }
     return out;
 }
 

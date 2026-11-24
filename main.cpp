@@ -29,6 +29,7 @@
 
 #include <fstream>
 #include <memory>
+#include <set>
 #include <vector>
 
 using namespace clang;
@@ -99,6 +100,8 @@ struct RunOutcome {
     std::string Text;
     bool Failed = false;
     bool GotResult = false;
+    std::set<std::string> PredefIdentifiers; // 预处理阶段见过的全部标识符
+    bool Trigraphs = false;                  // 编译器是否启用三字符组
 };
 
 // 依据全局选项组装 AST pass 流水线（每次动作各建一份）。
@@ -143,16 +146,26 @@ static std::vector<std::unique_ptr<obf::ASTObfPass>> buildPipeline() {
 
 struct ObfASTConsumer : public ASTConsumer {
     Rewriter &R;
+    Preprocessor &PP;
     std::vector<std::unique_ptr<obf::ASTObfPass>> Passes;
     RunOutcome *Out;
+    std::set<std::string> Predef; // 预处理阶段见过的全部标识符
 
-    ObfASTConsumer(Rewriter &R,
+    ObfASTConsumer(Rewriter &R, Preprocessor &PP,
                    std::vector<std::unique_ptr<obf::ASTObfPass>> passes,
                    RunOutcome *out)
-        : R(R), Passes(std::move(passes)), Out(out) {}
+        : R(R), PP(PP), Passes(std::move(passes)), Out(out) {}
 
     void HandleTranslationUnit(ASTContext &Ctx) override {
+        // 标识符表在预处理结束后包含本 TU 见过的全部标识符（系统头文件的
+        // 宏名、类型、函数……以及主文件自身的），各 pass 生成新名时一律禁用。
+        // 集合由 consumer 持有：pass 只借用指针，必须活到全部 run 结束
+        for (const auto &I : PP.getIdentifierTable())
+            Predef.insert(I.getKey().str());
+        for (auto &P : Passes) P->PredefIdentifiers = &Predef;
+
         for (auto &P : Passes) P->run(R, Ctx);
+        Out->PredefIdentifiers = std::move(Predef);
         FileID FID = Ctx.getSourceManager().getMainFileID();
         std::string text;
         llvm::raw_string_ostream os(text);
@@ -160,6 +173,7 @@ struct ObfASTConsumer : public ASTConsumer {
         os.flush();
         Out->Text = std::move(text);
         Out->GotResult = true;
+        Out->Trigraphs = Ctx.getLangOpts().Trigraphs;
     }
 };
 
@@ -170,7 +184,14 @@ struct ObfFrontendAction : public ASTFrontendAction {
     std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI,
                                                    StringRef) override {
         R.setSourceMgr(CI.getSourceManager(), CI.getLangOpts());
-        return std::make_unique<ObfASTConsumer>(R, buildPipeline(), Out);
+        auto Passes = buildPipeline();
+        // 重命名 pass 需要预处理阶段的宏调用记录：回调必须在预处理开始前登记
+        if (!NoRename) {
+            auto *rename = static_cast<obf::RenamePass *>(Passes.front().get());
+            rename->trackMacroUses(CI.getPreprocessor());
+        }
+        return std::make_unique<ObfASTConsumer>(R, CI.getPreprocessor(),
+                                                std::move(Passes), Out);
     }
     Rewriter R;
 };
@@ -223,7 +244,7 @@ int main(int argc, const char **argv) {
 
     // -compress：压缩命名的同时自动压缩代码版式（最小间隔拼接、
     // 注释清除、续行/三字符组/%: 归一，指令行独立）
-    if (Compress) text = obf::compressSource(text);
+    if (Compress) text = obf::compressSource(text, outcome.Trigraphs);
 
     // 文本级 pass：宏定义混淆
     if (MacroObf) {
@@ -232,6 +253,7 @@ int main(int argc, const char **argv) {
         macro.MinLen = MinLen;
         macro.MaxLen = MaxLen;
         macro.Seed = Seed;
+        macro.PredefIdentifiers = &outcome.PredefIdentifiers;
         text = macro.run(text);
     }
 

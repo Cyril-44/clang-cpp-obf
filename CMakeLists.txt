@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
-project(cppobf LANGUAGES CXX)
+# C 与 C++ 都要启用：LLVM 的 CMake 配置脚本（FindFFI / FindTerminfo）会试编译
+# 一小段代码来探测可选依赖，构建目录里只要有 CMAKE_C_COMPILER（IDE 按 kit
+# 配置时会传入，并留在缓存里）它就走 C 分支——项目未启用 C 时报
+# “check_source_compiles: C: needs to be enabled before use”，配置失败。
+project(cppobf LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)

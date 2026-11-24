@@ -1,25 +1,33 @@
 // obf/Compress.hpp — 源码版式压缩器（随 -compress 自动启用）
 //
 // 移植自用户提供的 JavaScript 参考实现，算法保持一致：
+//   compressSource:
+//     processTrigraph   三字符组归一（??= -> # 等）——仅当编译器启用三字符组
 //   compressSingle:
-//     processTrigraph   三字符组归一（??= -> # 等）
 //     processLineBreak  反斜杠续行拼接（去掉 '\' 与换行）
 //     processMultilineCommentAndReplaceMark
-//                       块注释 -> 单个空格；%: -> #
-//     逐行词法（字符串感知，含转义）划分 token；
+//                       块注释 -> 单个空格；行注释删除；%: -> #
+//     逐行词法划分 token（空白分隔，字符串/字符字面量含转义不切分）；
 //     行间/行内按 needSpace 最小间隔拼接，注释丢弃，
 //     '#' 指令行独立成行并保持 #define 名称分隔
-//   compressPass: R"(...)" 原始字符串原样旁路，其余逐段压缩
+//   compressPass: 原始字符串（含自定义分隔符与前缀）原样旁路，其余逐段压缩
 //   compressSource: compressPass 执行两遍（第一遍拼接后重排）
 //
-// 与参考实现的差异（仅限明显笔误的修正）：
+// 与参考实现的差异：
 //   * check 中 ' + '（含空格的三字符串，恒 false）按语义还原为 '+'
 //   * 未闭合的 /* 吞到文件尾（参考实现的 indexOf+2==-1 分支不可达）
+//   * 字符串/字符字面量统一经 lexLiteralEndInLine 整体跳过（参考实现自带的
+//     引号状态跟踪对 '\\'、'\'' 这类转义的收尾判断有误，会把后面的代码
+//     误判成字符串内/外，进而把字符串里的 "/*" 当成注释开头整段删除）；
+//     行注释改在全局阶段按逻辑行删除，注释里的撇号不再干扰引号状态
+//   * 三字符组归一以编译选项为准（见 compressSource）
 #pragma once
 
 #include <map>
 #include <string>
 #include <vector>
+
+#include "Support.hpp"
 
 namespace obf {
 
@@ -95,41 +103,42 @@ inline std::string processLineBreak(const std::string &str) {
 inline std::string processMultilineCommentAndReplaceMark(
     const std::string &str) {
     std::string ret;
-    char stringBegin = 0;
-    bool esc = false, inString = false;
     size_t lst = 0;
     for (size_t i = 0; i < str.size(); ++i) {
-        if (inString) {
-            if (!esc && str[i] == stringBegin) inString = false;
-        } else if (str[i] == '\'' || str[i] == '"') {
-            inString = true;
-            stringBegin = str[i];
-        } else if (i + 1 < str.size()) {
-            if (str[i] == '/' && str[i + 1] == '*') {
-                ret += str.substr(lst, i - lst) + " ";
-                size_t e = str.find("*/", i + 2);
-                if (e == std::string::npos) { // 未闭合：吞到文件尾
-                    lst = str.size();
-                    i = str.size();
-                    break;
-                }
-                i = e + 2;
-                lst = i;
-            } else if (str[i] == '%' && str[i + 1] == ':') {
-                ret += str.substr(lst, i - lst) + "#";
-                i += 2;
-                lst = i;
+        char c = str[i];
+        if (c == '/' && i + 1 < str.size() && str[i + 1] == '*') {
+            ret += str.substr(lst, i - lst) + " ";
+            size_t e = str.find("*/", i + 2);
+            if (e == std::string::npos) { // 未闭合：吞到文件尾
+                lst = str.size();
+                break;
             }
+            i = e + 1;
+            lst = e + 2;
+        } else if (c == '/' && i + 1 < str.size() && str[i + 1] == '/') {
+            // 行注释连同其续行一并删除；行尾换行保留，行结构不变
+            size_t e = lexLogicalLineEnd(str, i + 2);
+            ret += str.substr(lst, i - lst);
+            if (e == std::string::npos) {
+                lst = str.size();
+                break;
+            }
+            i = e;
+            lst = e;
+        } else if (c == '%' && i + 1 < str.size() && str[i + 1] == ':') {
+            ret += str.substr(lst, i - lst) + "#";
+            ++i;
+            lst = i + 1;
+        } else if (size_t e = lexLiteralEndInLine(str, i)) {
+            i = e - 1; // 字面量（含前缀）整体跳过：其内的 /* // %: 不参与判定
         }
-        esc = i < str.size() && str[i] == '\\';
     }
-    ret += str.substr(lst == std::string::npos ? 0 : lst);
+    ret += str.substr(lst);
     return ret;
 }
 
 inline std::string compressSingle(const std::string &input) {
-    std::string str = processTrigraph(input);
-    str = processLineBreak(str);
+    std::string str = processLineBreak(input);
     str = processMultilineCommentAndReplaceMark(str);
 
     // 按 '\n' 拆行
@@ -156,26 +165,23 @@ inline std::string compressSingle(const std::string &input) {
             while (i != line.size() && isSpaceCh(line[i])) ++i;
             if (i == line.size()) break;
             lef.push_back(i);
-            char stringBegin = 0;
-            bool esc = false, inString = false;
-            while (i != line.size() && (inString || !isSpaceCh(line[i]))) {
-                if (inString) {
-                    if (!esc && line[i] == stringBegin) inString = false;
-                } else if (line[i] == '"' || line[i] == '\'') {
-                    inString = true;
-                    stringBegin = line[i];
-                } else if (line[i] == '/' && i != line.size() - 1) {
-                    if (line[i + 1] == '/') { // 行注释：注释本身记为一个 token
-                        rig.push_back(i - 1);
-                        lef.push_back(i);
-                        rig.push_back(line.size() - 1);
-                        lexDone = true;
-                        break;
-                    }
+            while (i != line.size() && !isSpaceCh(line[i])) {
+                if (line[i] == '/' && i != line.size() - 1 &&
+                    line[i + 1] == '/') { // 行注释：注释本身记为一个 token
+                    rig.push_back(i - 1);
+                    lef.push_back(i);
+                    rig.push_back(line.size() - 1);
+                    lexDone = true;
+                    break;
+                }
+                // 字面量（含 u8/R 等前缀；'\''、'\\' 等；1'000'000 的数字
+                // 分隔符）整体并入当前 token：其内空白不切分、`//` 不算注释
+                size_t e = lexLiteralEndInLine(line, i);
+                if (e) {
+                    i = e;
+                    continue;
                 }
                 ++i;
-                if (i == line.size()) break;
-                esc = line[i] == '\\';
             }
             if (!lexDone) rig.push_back(i - 1);
         }
@@ -236,32 +242,31 @@ inline std::string compressSingle(const std::string &input) {
     return ret;
 }
 
-// R"(...)" 原始字符串旁路，其余逐段压缩
+// 原始字符串（R"(...)"、R"delim(...)delim"，含 u8/u/U/L 前缀）原样旁路，其余逐段
+// 压缩。原始字符串的定位交给分词器——按 "R\"(" … ")\"" 的字面模式查找时，带
+// 自定义分隔符的 R"x(...)x" 认不出来，其内容会被当成代码压缩（空白、换行被删，
+// 字符串被静默改写，而产物照样能编译）。
 inline std::string compressPass(const std::string &str) {
-    const std::string patternS = "R\"(";
-    const std::string patternT = ")\"";
     std::string ret;
     size_t lst = 0;
-    while (lst != str.size()) {
-        size_t ind = str.find(patternS, lst);
-        if (ind == std::string::npos) break;
-        ret += compressSingle(str.substr(lst, ind - lst));
-        size_t rig = str.find(patternT, ind + patternS.size());
-        if (rig == std::string::npos) {
-            ret += str.substr(ind);
-            lst = str.size();
-            break;
-        }
-        lst = rig + patternT.size();
-        ret += str.substr(ind, lst - ind);
+    for (const Token &t : lexSource(str)) {
+        if (t.kind != TokKind::Str) continue;
+        size_t q = t.text.find('"'); // 引号前紧挨着前缀 R 的才是原始字符串
+        if (q == std::string::npos || q == 0 || t.text[q - 1] != 'R') continue;
+        ret += compressSingle(str.substr(lst, t.begin - lst));
+        ret += t.text;
+        lst = t.begin + t.text.size();
     }
     ret += compressSingle(str.substr(lst));
     return ret;
 }
 
-// 参考实现执行两遍：第一遍拼接续行后整体重排
-inline std::string compressSource(const std::string &src) {
-    return compressPass(compressPass(src));
+// 参考实现执行两遍：第一遍拼接续行后整体重排。
+// trigraphs：仅当编译器启用三字符组时才做归一——严格 ISO 模式下 ??= 在翻译
+// 阶段 1 就被换成 #，归一与编译器行为一致；gnu 模式与 C++17 起默认关闭，
+// 此时 "??!" 就是三个普通字符，改写会改变程序。
+inline std::string compressSource(const std::string &src, bool trigraphs) {
+    return compressPass(compressPass(trigraphs ? processTrigraph(src) : src));
 }
 
 } // namespace obf

@@ -8,7 +8,13 @@
 //   * 依赖上下文中无法解析的名字（CXXDependentScopeMemberExpr 等）按名字映射
 //     替换，且带“限定符/基类型属于本文件”的守卫，避免误伤 std::enable_if<>::type；
 //   * 出现在宏展开中的名字自动“冻结”（保持原名），因为宏体文本无法重写；
-//   * 新名字避开源文件中所有标识符、全部关键字与保留标识符，杜绝捕获。
+//     宏实参里被宏体当作裸 token 使用的名字（offsetof(T, member) 的成员名、
+//     #x 字符串化、a##b 粘接）在 AST 中没有节点，由预处理回调记录的宏调用
+//     区间兜底冻结；
+//   * 新名字避开源文件中所有标识符、预处理阶段见过的全部标识符（含系统头
+//     文件的宏名与声明）、全部关键字与保留标识符，杜绝捕获；
+//   * main 与 extern "C" 接口保持原名；C 模式下没有 linkage specification，
+//     除 main 外一律重命名。
 //
 // 覆盖的声明（NamedDecl 全类）：变量/函数/成员/枚举与枚举值/类型与别名/
 // 命名空间与别名/模板（函数/类/变量/别名/模板模板参数）/概念/结构化绑定/
@@ -21,16 +27,23 @@
 #include <clang/AST/RecursiveASTVisitor.h>
 #include <clang/Basic/LangOptions.h>
 #include <clang/Basic/SourceManager.h>
+#include <clang/Lex/Lexer.h>
+#include <clang/Lex/PPCallbacks.h>
+#include <clang/Lex/Preprocessor.h>
 #include <clang/Rewrite/Core/Rewriter.h>
 
+#include <llvm/Support/MemoryBuffer.h>
 #include <llvm/Support/raw_ostream.h>
 
 #include "Passes.hpp"
 #include "Support.hpp"
 
+#include <algorithm>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
+#include <utility>
 
 using namespace clang;
 
@@ -39,6 +52,38 @@ namespace obf {
 class RenamePass;
 
 using clang::RecursiveASTVisitor;
+
+// 预处理回调：记录主文件中每一次宏调用的源码区间（宏名 token 到闭括号
+// token，单位是主文件字节偏移）。嵌套在别的宏实参里的调用已被外层区间
+// 覆盖，不再重复记录。
+class MacroRangeRecorder : public PPCallbacks {
+public:
+    using SrcRanges = std::vector<std::pair<unsigned, unsigned>>;
+
+    MacroRangeRecorder(std::shared_ptr<SrcRanges> out,
+                       const SourceManager &SM)
+        : Out(std::move(out)), SM(SM) {}
+
+    void MacroExpands(const clang::Token &MacroNameTok,
+                      const MacroDefinition &,
+                      SourceRange Range, const MacroArgs *) override {
+        if (Range.getBegin().isMacroID() ||
+            !SM.isInMainFile(Range.getBegin()))
+            return;
+        // 区间从宏名 token 之后开始：宏名本身不是任何声明的引用
+        unsigned b = SM.getFileOffset(MacroNameTok.getLocation()) +
+                     MacroNameTok.getLength();
+        if (!Out->empty() && b <= Out->back().second) return; // 嵌套调用
+        unsigned e = Range.getEnd().isMacroID()
+                         ? b - 1 // 对象式宏：空区间
+                         : SM.getFileOffset(Range.getEnd());
+        Out->push_back({b, e});
+    }
+
+private:
+    std::shared_ptr<SrcRanges> Out;
+    const SourceManager &SM;
+};
 
 class RenamerVisitor : public RecursiveASTVisitor<RenamerVisitor> {
 public:
@@ -97,6 +142,14 @@ public:
 
     const char *name() const override { return "rename"; }
 
+    // 在预处理开始前调用（CreateASTConsumer 中）：登记回调，记录主文件里
+    // 每一次宏调用的源码区间，供 freezeMacroArguments 使用
+    void trackMacroUses(Preprocessor &PP) {
+        MacroRanges_ = std::make_shared<MacroRangeRecorder::SrcRanges>();
+        PP.addPPCallbacks(std::make_unique<MacroRangeRecorder>(
+            MacroRanges_, PP.getSourceManager()));
+    }
+
     void run(clang::Rewriter &R, clang::ASTContext &Ctx) override {
         R_ = &R;
         Ctx_ = &Ctx;
@@ -105,12 +158,13 @@ public:
         bool invalid = false;
         llvm::StringRef buf =
             SM_->getBufferData(SM_->getMainFileID(), &invalid);
-        Forbidden_ = collectIdentifiers(buf.str());
+        Forbidden_ = forbiddenNames(buf.str(), PredefIdentifiers);
 
         // 第一遍：收集可重命名名字与需要冻结的名字
         setCollecting(true);
         RenamerVisitor collector(*this, true);
         collector.TraverseDecl(Ctx.getTranslationUnitDecl());
+        freezeMacroArguments();
 
         // reserve：从待重命名集合中剔除保留名；保留的类名（或显式
         // Class::*)延申保留其全部 public 方法的名字
@@ -159,6 +213,18 @@ public:
     bool inMain(clang::SourceLocation l) {
         return l.isValid() && !l.isMacroID() &&
                SM_->isWrittenInMainFile(l);
+    }
+
+    // main 与 extern "C" 接口保持原名。C 模式下一切函数都是 C 链接
+    // （isExternC 对所有外部链接的函数/变量恒为真），该豁免只针对 C++
+    // 的 linkage specification——否则 C 源文件的声明不改名、引用处却改了
+    bool keepLinkageName(const Decl *D) {
+        const LangOptions &LO = Ctx_->getLangOpts();
+        if (const auto *FD = dyn_cast<FunctionDecl>(D))
+            return FD->isMain() || (LO.CPlusPlus && FD->isExternC());
+        if (const auto *VD = dyn_cast<VarDecl>(D))
+            return LO.CPlusPlus && VD->isExternC();
+        return false;
     }
 
     // 收集阶段：记录“出现在宏里”的名字，使其保持原名
@@ -216,6 +282,46 @@ public:
 private:
     friend class RenamerVisitor;
 
+    // 宏实参里的标识符可能被宏体当作裸 token 使用（offsetof(T, member)、
+    // container_of(p, T, member) 的成员名、#x 字符串化、a##b 粘接），AST 中
+    // 没有任何节点对应这些 token，遍历看不到；宏体文本又无法改写。因此把
+    // 主文件里落在宏调用区间内的名字全部冻结——声明处保持原名，宏体里的
+    // 引用才仍然有效。
+    void freezeMacroArguments() {
+        if (!MacroRanges_ || MacroRanges_->empty()) return;
+        using Range = std::pair<unsigned, unsigned>;
+        std::vector<Range> ranges = *MacroRanges_;
+        std::sort(ranges.begin(), ranges.end());
+        // 合并重叠/相邻区间（嵌套调用）
+        size_t w = 0;
+        for (const Range &r : ranges) {
+            if (w && r.first <= ranges[w - 1].second + 1)
+                ranges[w - 1].second =
+                    std::max(ranges[w - 1].second, r.second);
+            else
+                ranges[w++] = r;
+        }
+        ranges.resize(w);
+
+        // 对主文件做一次不做宏展开的原生分词，挑出区间内的标识符 token
+        llvm::MemoryBufferRef buf = SM_->getBufferOrFake(SM_->getMainFileID());
+        Lexer lex(SM_->getMainFileID(), buf, *SM_, Ctx_->getLangOpts());
+        clang::Token tok;
+        auto it = ranges.begin();
+        for (;;) {
+            // 注意 LexFromRawLexer 的返回值是“已读到缓冲区末尾”，不是“得到 token”
+            lex.LexFromRawLexer(tok);
+            if (tok.is(tok::eof)) break;
+            if (!tok.is(tok::raw_identifier)) continue;
+            unsigned off = SM_->getFileOffset(tok.getLocation());
+            while (it != ranges.end() && it->second < off) ++it;
+            if (it == ranges.end()) break;
+            if (it->first > off) continue;
+            std::string name(buf.getBufferStart() + off, tok.getLength());
+            if (Names_.count(name)) Frozen_.insert(name);
+        }
+    }
+
     bool textMatchesAt(clang::SourceLocation loc, llvm::StringRef name) {
         if (!loc.isValid() || loc.isMacroID()) return false;
         if (!SM_->isWrittenInMainFile(loc)) return false;
@@ -241,6 +347,9 @@ public:
     std::set<clang::SourceLocation> Done_;
     // 主文件中的类定义（reserve 延申用）
     std::map<std::string, std::vector<clang::CXXRecordDecl *>> Records_;
+    // 预处理回调记录的宏调用区间（回调对象归 Preprocessor 所有，用
+    // shared_ptr 保证两者的生存期互不依赖）
+    std::shared_ptr<MacroRangeRecorder::SrcRanges> MacroRanges_;
     bool CollectMode = false;
 };
 
@@ -316,10 +425,7 @@ bool RenamerVisitor::VisitNamedDecl(NamedDecl *D) {
     }
 
     if (P.collecting()) {
-        if (const auto *FD = dyn_cast<FunctionDecl>(D))
-            if (FD->isMain() || FD->isExternC()) return true;
-        if (const auto *VD = dyn_cast<VarDecl>(D))
-            if (VD->isExternC()) return true;
+        if (P.keepLinkageName(D)) return true;
         if (const auto *RD = dyn_cast<CXXRecordDecl>(D))
             if (RD->isThisDeclarationADefinition() && !RD->isImplicit())
                 P.Records_[name.str()].push_back(
@@ -331,10 +437,7 @@ bool RenamerVisitor::VisitNamedDecl(NamedDecl *D) {
     // 改写阶段
     if (const auto *DD = dyn_cast<CXXDestructorDecl>(D))
         return renameDestructor(P, const_cast<CXXDestructorDecl *>(DD));
-    if (const auto *FD = dyn_cast<FunctionDecl>(D))
-        if (FD->isMain() || FD->isExternC()) return true;
-    if (const auto *VD = dyn_cast<VarDecl>(D))
-        if (VD->isExternC()) return true;
+    if (P.keepLinkageName(D)) return true;
     P.renameAt(name, loc);
     return true;
 }

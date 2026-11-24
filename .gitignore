@@ -7,3 +7,4 @@ compile_commands.json
 tests/.obf_out/
 *.o
 a.out
+cmake-*

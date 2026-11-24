@@ -16,17 +16,35 @@
 
 #include <llvm/Support/raw_ostream.h>
 
+#include "Support.hpp"
+
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
 namespace obf {
+
+// 各 pass 共用的禁用名集合：当前文本里的全部标识符，并入预处理阶段见过的
+// 全部标识符（PredefIdentifiers，由驱动注入）。
+// 后者覆盖系统头文件里的宏名与声明——压缩短名撞上它们时，主文件的新声明
+// 会与头文件声明冲突（如 glibc 的 j0/j1/jn/y0/y1/yn），或被同名宏替换掉。
+inline std::set<std::string> forbiddenNames(
+    const std::string &text,
+    const std::set<std::string> *predef) {
+    std::set<std::string> f = collectIdentifiers(text);
+    if (predef) f.insert(predef->begin(), predef->end());
+    return f;
+}
 
 class ASTObfPass {
 public:
     virtual ~ASTObfPass() = default;
     virtual const char *name() const = 0;
     virtual void run(clang::Rewriter &R, clang::ASTContext &Ctx) = 0;
+
+    // 预处理阶段见过的全部标识符（见 forbiddenNames）；由驱动在 run 之前设置
+    const std::set<std::string> *PredefIdentifiers = nullptr;
 };
 
 class TextObfPass {

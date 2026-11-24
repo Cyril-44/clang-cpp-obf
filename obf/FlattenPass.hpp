@@ -10,6 +10,10 @@
 //     ...
 //     default: done = true; break;
 //   }
+//   for(;;){}  ← 仅当函数返回类型非 void 且所有路径都以 return 收尾：
+//                default 出口不可达，补一个死循环封死落空路径，消除 -Wreturn-type
+//
+// C 语言适配：bool/false/true 仅在 C++ 与 C23 是关键字，更早的 C 改用 int/0/1。
 //
 // 关键工程决策：**纯插入式改写**。不替换任何既有文本，只在语句边界
 // （`;` / `}` / `{` 之后——语句不可能以标识符结尾）插入调度器文本：
@@ -71,7 +75,7 @@ public:
         R_->getEditBuffer(SM_->getMainFileID()).write(os);
         os.flush();
         Gen_ = std::make_unique<NameGenerator>(
-            Compress, MinLen, MaxLen, Seed, collectIdentifiers(cur));
+            Compress, MinLen, MaxLen, Seed, forbiddenNames(cur, PredefIdentifiers));
 
         Visitor V(*this);
         V.TraverseDecl(ctx.getTranslationUnitDecl());
@@ -120,6 +124,94 @@ private:
         unsigned o = SM_->getFileOffset(l);
         for (auto &pr : ClaimedBodies)
             if (o >= pr.first && o <= pr.second) return true;
+        return false;
+    }
+
+    // 语句执行完后是否不可能“落到函数末尾”。只做保守的语法判断，拿不准一律
+    // 视为可能落空（后果仅是不加出口保护）。
+    static bool neverFallsThrough(const Stmt *S) {
+        if (!S) return false;
+        // throw 是表达式（CXXThrowExpr）；本版 Clang 中表达式直接充当语句节点，
+        // 没有单独的 ExprStmt 包装
+        if (isa<CXXThrowExpr>(S)) return true;
+        switch (S->getStmtClass()) {
+        case Stmt::ReturnStmtClass:
+            return true;
+        case Stmt::CompoundStmtClass: {
+            const auto *CS = cast<CompoundStmt>(S);
+            for (const Stmt *C : CS->body())
+                if (isa<ReturnStmt>(C)) return true; // 其后的语句不可达
+            return !CS->body_empty() && neverFallsThrough(CS->body_back());
+        }
+        case Stmt::IfStmtClass: {
+            const auto *IS = cast<IfStmt>(S);
+            return IS->getElse() && neverFallsThrough(IS->getThen()) &&
+                   neverFallsThrough(IS->getElse());
+        }
+        case Stmt::SwitchStmtClass: {
+            const auto *SS = cast<SwitchStmt>(S);
+            bool hasDefault = false;
+            for (const SwitchCase *SC = SS->getSwitchCaseList(); SC;
+                 SC = SC->getNextSwitchCase()) {
+                if (isa<DefaultStmt>(SC)) hasDefault = true;
+                // 连续堆叠的 case 标签（落空）归并到下一段判断
+                if (!isa<SwitchCase>(SC->getSubStmt()) &&
+                    !neverFallsThrough(SC->getSubStmt()))
+                    return false;
+            }
+            return hasDefault;
+        }
+        case Stmt::ForStmtClass: {
+            // for(;;) / for(;1;)：条件恒真或无条件，且循环体自身层级没有 break
+            const auto *FS = cast<ForStmt>(S);
+            return (!FS->getCond() || isConstantTrue(FS->getCond())) &&
+                   !hasOwnBreak(FS->getBody());
+        }
+        case Stmt::WhileStmtClass: {
+            const auto *WS = cast<WhileStmt>(S);
+            return isConstantTrue(WS->getCond()) && !hasOwnBreak(WS->getBody());
+        }
+        case Stmt::DoStmtClass: {
+            const auto *DS = cast<DoStmt>(S);
+            return isConstantTrue(DS->getCond()) && !hasOwnBreak(DS->getBody());
+        }
+        default: {
+            // 调用 noreturn 函数（exit/abort/…）的表达式语句
+            const auto *E = dyn_cast<Expr>(S);
+            if (!E) return false;
+            const auto *CE = dyn_cast<CallExpr>(E->IgnoreParens());
+            const FunctionDecl *Callee = CE ? CE->getDirectCallee() : nullptr;
+            return Callee && Callee->isNoReturn();
+        }
+        }
+    }
+
+    static bool isConstantTrue(const Expr *E) {
+        E = E->IgnoreParenCasts();
+        if (const auto *IL = dyn_cast<IntegerLiteral>(E))
+            return IL->getValue() == 1;
+        const auto *BL = dyn_cast<CXXBoolLiteralExpr>(E);
+        return BL && BL->getValue();
+    }
+
+    // 循环体自身层级是否有 break：内层循环 / switch 的 break 不属于本循环
+    static bool hasOwnBreak(const Stmt *S) {
+        if (!S) return false;
+        for (const Stmt *C : S->children()) {
+            if (!C) continue;
+            switch (C->getStmtClass()) {
+            case Stmt::BreakStmtClass:
+                return true;
+            case Stmt::ForStmtClass:
+            case Stmt::WhileStmtClass:
+            case Stmt::DoStmtClass:
+            case Stmt::SwitchStmtClass:
+                continue;
+            default:
+                break;
+            }
+            if (hasOwnBreak(C)) return true;
+        }
         return false;
     }
 
@@ -189,10 +281,13 @@ void FlattenPass::flattenOne(FunctionDecl *FD) {
         }
     }
 
+    // bool/false/true 在 C++ 与 C23 是关键字，更早的 C 里只是 <stdbool.h> 的宏——
+    // 源文件未必包含它，旧标准下改用 int
+    const LangOptions &LO = Ctx_->getLangOpts();
     std::string head = "\n" + junkBlock() + "unsigned " + st + " = " +
                        std::to_string(cs[0] ^ K) + "u; const unsigned " + kk +
-                       " = " + std::to_string(K) +
-                       "u; bool " + dn + " = false;\n"
+                       " = " + std::to_string(K) + "u; " + (LO.Bool ? "bool" : "int") +
+                       " " + dn + " = " + (LO.Bool ? "false" : "0") + ";\n"
                        "while (!" + dn + ") switch (" + st + " ^= " + kk +
                        ") {\n"
                        "case " + std::to_string(cs[0]) + "u: { ";
@@ -209,7 +304,15 @@ void FlattenPass::flattenOne(FunctionDecl *FD) {
         InsertOffsets.push_back(SM_->getFileOffset(rem[i]->getEndLoc()));
     }
     std::string tail = "; } " + st + " = " + std::to_string(exitC ^ K) +
-                       "u; continue; default: " + dn + " = true; break; } ";
+                       "u; continue; default: " + dn + " = " +
+                       (LO.Bool ? "true" : "1") + "; break; } ";
+    // 返回类型非 void、且所有路径都以 return 收尾的函数：default 出口实际
+    // 不可达，但编译器看不出来，会报 -Wreturn-type（“并非所有控制路径都有
+    // 返回值”）。循环之后补一个死循环，把“落空”路径显式封死。独占一行、
+    // 循环体用 {}：不触发 -Wmisleading-indentation / -Wempty-body
+    if (!FD->getReturnType()->isVoidType() && !FD->isMain() &&
+        neverFallsThrough(Body))
+        tail += "\nfor(;;){}";
     R_->InsertTextAfterToken(rem.back()->getEndLoc(), tail);
     InsertOffsets.push_back(SM_->getFileOffset(rem.back()->getEndLoc()));
 

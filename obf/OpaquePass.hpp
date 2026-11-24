@@ -65,7 +65,7 @@ public:
         R_->getEditBuffer(SM_->getMainFileID()).write(os);
         os.flush();
         Gen_ = std::make_unique<NameGenerator>(
-            Compress, MinLen, MaxLen, Seed, collectIdentifiers(cur));
+            Compress, MinLen, MaxLen, Seed, forbiddenNames(cur, PredefIdentifiers));
 
         Visitor V(*this);
         V.TraverseDecl(ctx.getTranslationUnitDecl());
